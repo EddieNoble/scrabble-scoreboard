@@ -1,12 +1,21 @@
-﻿import { Component } from '@angular/core';
+﻿import {Component, inject } from '@angular/core';
+import { LeaderboardEntry } from '../../models/leaderboard-entry';
+import { LeaderboardService } from '../../services/leaderboard.service';
 
 @Component({
   selector: 'app-leaderboard-table',
   standalone: true,
-  imports: [],
   templateUrl: './leaderboard-table.component.html',
   styleUrl: './leaderboard-table.component.scss'
 })
 export class LeaderboardTableComponent {
-  displayName = 'Leaderboard Table';
+
+  displayName = 'Leaderboard';
+
+  private leaderboardService =
+    inject(LeaderboardService);
+
+  leaderboardEntries: LeaderboardEntry[] =
+    this.leaderboardService.getLeaderboard();
+
 }
