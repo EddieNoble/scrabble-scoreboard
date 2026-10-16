@@ -1,16 +1,18 @@
 ﻿import { Component } from '@angular/core';
 import {InfoCardComponent} from '../../components/info-card/info-card.component';
-import {LeaderboardComponent} from '../../components/leaderboard/leaderboard.component';
+import {LeaderboardTableComponent} from '../../components/leaderboard-table/leaderboard-table.component';
+import {NavbarComponent} from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     InfoCardComponent,
-    LeaderboardComponent
+    LeaderboardTableComponent,
+    NavbarComponent
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.sscss'
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   displayName = 'Home';

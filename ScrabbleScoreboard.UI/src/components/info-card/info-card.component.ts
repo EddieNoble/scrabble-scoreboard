@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import {Component, input} from '@angular/core';
 
 @Component({
   selector: 'app-info-card',
@@ -9,4 +9,7 @@
 })
 export class InfoCardComponent {
   displayName = 'Info Card';
+  title = input('');
+  bodyText = input('');
+  actionText = input('');
 }

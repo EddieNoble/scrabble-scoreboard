@@ -1,13 +1,29 @@
-﻿<h2>{{ displayName }}</h2>
+﻿<div class="page-container">
 
-<app-info-card displayName="General Intro">
-  <p>Some blurb about general intro</p>
-</app-info-card>
-<app-info-card displayName="Contact Us">
-  <p>Some blurb about contacting us</p>
-</app-info-card>
-<app-info-card displayName="Find Us">
-  <p>Some blurb about finding us</p>
-</app-info-card>
+  <div class="card-grid">
 
-<app-leaderboard displayName="This is our leader board" />
+    <app-info-card
+      actionText="Read More"
+      bodyText="Competitive tournaments and leagues."
+      title="Do you love Scrabble?">
+    </app-info-card>
+
+    <app-info-card
+      actionText="0115 123 4567"
+      bodyText="We are available by phone 9am - 5pm"
+      title="Call Us">
+    </app-info-card>
+
+    <app-info-card actionText="Open in maps"
+                   bodyText="123 fake street, Someplace, Nottingham, NG1 2TR"
+                   title="Find Us">
+    </app-info-card>
+
+  </div>
+
+  <div>
+    <app-navbar></app-navbar>
+  </div>
+
+  <app-leaderboard-table displayName="This is our leader board table"/>
+</div>
