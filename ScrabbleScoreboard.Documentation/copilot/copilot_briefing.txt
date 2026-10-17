@@ -127,3 +127,345 @@ Include:
 - recurring patterns observed during the project
 
 The goal is to help another Copilot maintain continuity of guidance and decision making.
+
+# Starliner Transmission: ScrabbleScoreboard Project Briefing
+
+## 1. Project Overview
+
+### Purpose
+
+ScrabbleScoreboard is a skills-development project centred around building a Scrabble tournament management application.
+
+The project is deliberately being used as a learning vehicle for:
+
+- Angular (modern Angular with standalone components and Signals)
+- RabbitMQ
+- Docker
+- Azure DevOps
+- Event-driven architecture
+- Architectural modelling and documentation
+- Copilot-assisted development workflows
+
+### Business Goal
+
+Immediate goal:
+
+Manage Scrabble tournaments
+
+including:
+
+- Players
+- Matches
+- Results
+- Leaderboards
+
+Secondary goal:
+
+Create reusable patterns
+
+that can potentially be transferred to:
+
+- Sports leagues
+- Team management
+- Existing TripTab ecosystem
+- Future commercial products
+
+### Intended Users
+
+Primary:
+
+Tournament administrators
+
+Secondary:
+
+Players
+League organisers
+
+Potential future:
+
+Community-managed leagues
+
+### Current Status
+
+Completed:
+
+- Angular SPA established
+- GitHub repository established
+- Routing operational
+- Reusable components operational
+- RabbitMQ proof-of-concepts completed
+- Docker environment established
+- Initial architecture identified
+- Figma design analysed
+
+Current pages:
+
+- Home
+- Players
+- Matches
+- Leaderboard
+
+Current reusable components:
+
+- InfoCard
+- Navbar
+- LeaderboardTable
+
+---
+
+# 2. Architecture
+
+## Front End
+
+Technology:
+
+Angular 22
+
+Using:
+
+Standalone Components
+
+Project:
+
+ScrabbleScoreboard.UI
+
+Current structure:
+
+src
+
+├── app
+├── pages
+├── components
+├── models
+├── services
+└── styles
+
+### Pages
+
+- Home
+- Players
+- Matches
+- Leaderboard
+
+### Components
+
+- Navbar
+- InfoCard
+- LeaderboardTable
+
+---
+
+## Back End
+
+Not yet implemented.
+
+Current expectation:
+
+.NET API
+
+likely following familiar team patterns:
+
+- CQRS
+- Commands
+- Handlers
+- Events
+
+---
+
+## Hosting Approach
+
+Current:
+
+Local development
+
+Future:
+
+Docker containers
+
+Potential later:
+
+Azure hosting
+
+---
+
+## Data Storage
+
+Not yet selected.
+
+Current focus:
+
+UI
+Architecture
+
+rather than persistence.
+
+Possible candidates discussed:
+
+- SQLite
+- PostgreSQL
+- SQL Server
+
+No final decision made.
+
+---
+
+## External Dependencies
+
+Current:
+
+- Angular
+- RabbitMQ
+- Docker
+- GitHub
+
+Potential future:
+
+- Azure DevOps
+- Azure messaging services
+
+---
+
+## Security Model
+
+No implementation yet.
+
+Security deliberately postponed until:
+
+Core functionality exists
+
+---
+
+## Authentication / Authorisation
+
+Not implemented.
+
+Likely future direction:
+
+- Administrator access
+- Player access
+
+but currently deferred.
+
+---
+
+# 3. Event-Driven Architecture
+
+## Current Design
+
+No event-driven implementation inside ScrabbleScoreboard yet.
+
+RabbitMQ learning work was intentionally isolated using Ideal Type examples.
+
+---
+
+## Planned Services
+
+Conceptually:
+
+- Player Management
+- Match Management
+- Leaderboard / Ranking
+- Notifications
+
+---
+
+## Message Broker
+
+Selected:
+
+RabbitMQ
+
+Reason:
+
+- Learning objective
+- Future relevance
+- Existing EventHarvest roadmap
+
+---
+
+## Queue Topology
+
+Current learning topology:
+
+Producer
+→ Queue
+→ Consumer
+
+Future:
+
+Producer
+→ Exchange
+→ Multiple Queues
+→ Multiple Consumers
+
+---
+
+## Candidate Events
+
+Identified so far:
+
+- PlayerRegistered
+- MatchScheduled
+- MatchCompleted
+- LeaderboardUpdated
+- TournamentCreated
+
+No implementation yet.
+
+---
+
+## Scaling Considerations
+
+Not currently relevant.
+
+Architectural lessons being prioritised over infrastructure concerns.
+
+---
+
+# 4. RabbitMQ Discussions
+
+## Objectives
+
+Learn:
+
+- Queue
+- Exchange
+- Consumer
+- Producer
+- Retry
+- Failure handling
+
+through experimentation.
+
+---
+
+## Producer Example
+
+Published:
+
+PlayerRegistered
+
+event.
+
+---
+
+## Consumer Example
+
+Consumed:
+
+PlayerRegistered
+
+messages.
+
+---
+
+## Queue
+
+Learning queue:
+
+scrabble-demo
+
+---
+
+## Exchange Discussion
+
