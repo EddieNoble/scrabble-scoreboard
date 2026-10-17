@@ -1,0 +1,129 @@
+Hello from an alternate Copilot conversation.
+
+We are attempting to transfer working context between environments so that development can continue consistently.
+
+Please provide a detailed briefing on the "Scrabble Scoreboard" project, written for another Copilot instance that has no prior knowledge of the project.
+
+The briefing should include:
+
+## 1. Project Overview
+
+- Purpose of the project
+- Business goal
+- Intended users
+- Current status
+
+## 2. Architecture
+
+Describe the current architecture in sufficient detail to recreate the design.
+
+Include:
+
+- Front-end technology
+- Back-end technology
+- Hosting approach
+- Data storage
+- External dependencies
+- Security model
+- Authentication/authorisation approach
+
+## 3. Event-Driven Architecture
+
+If an event-driven or microservices architecture has been discussed:
+
+- Current design
+- Planned services
+- Message broker selection
+- Queue topology
+- Event definitions
+- Service responsibilities
+- Scaling considerations
+
+## 4. RabbitMQ Discussions
+
+Provide details of:
+
+- RabbitMQ usage
+- Producers
+- Consumers
+- Exchanges
+- Routing keys
+- Queue naming conventions
+- Any implementation examples discussed
+
+## 5. Development Approach
+
+Describe our agreed engineering practices:
+
+- Architectural preferences
+- Coding standards
+- Delivery strategy
+- Iterative approach
+- MVP definition
+- Sequencing decisions
+- Risk management approach
+
+## 6. UI / UX
+
+Provide:
+
+- Figma references discussed
+- Layout approach
+- Design goals
+- Component strategy
+- Branding considerations
+
+## 7. Technology Decisions
+
+List major decisions already made and why they were chosen.
+
+Examples:
+
+- Angular vs Blazor
+- .NET choices
+- Docker decisions
+- Azure decisions
+- Database choices
+- Messaging choices
+
+## 8. Delivery Roadmap
+
+Provide the currently agreed roadmap:
+
+Phase 1
+Phase 2
+Phase 3
+etc.
+
+Include rationale for the ordering.
+
+## 9. Open Questions
+
+List:
+
+- unresolved decisions
+- technical risks
+- future enhancements
+- items awaiting validation
+
+## 10. Guidance To Alternate Copilot
+
+Please include any specific advice, assumptions, conventions, user preferences, working practices, architectural principles, or project context that would help another Copilot continue development consistently.
+
+The response should be self-contained and assume no prior knowledge of the project.
+
+## 11. User Profile Briefing
+
+Please describe the user working style and preferences that are relevant to this project.
+
+Include:
+
+- preferred architectural approaches
+- sequencing preferences
+- risk management preferences
+- delivery philosophy
+- tooling preferences
+- documentation preferences
+- recurring patterns observed during the project
+
+The goal is to help another Copilot maintain continuity of guidance and decision making.
