@@ -115,7 +115,7 @@ namespace ScrabbleScoreboad.Consumer
 
             await channel.QueueDeclareAsync(
                 queue: "notifications",
-                durable: false,
+                durable: true,
                 exclusive: false,
                 autoDelete: false);
 
