@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ScrabbleScoreboard.Studies.Domain.RabbitMQ.Fanout.Messages
+﻿namespace ScrabbleScoreboard.Studies.Domain.Fanout
 {
 
 	public class ResultSubmitted

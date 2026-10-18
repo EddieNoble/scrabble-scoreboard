@@ -1,5 +1,6 @@
 ﻿using RabbitMQ.Client;
-using ScrabbleScoreboard.Studies.Domain.RabbitMQ.Fanout.Messages;
+using ScrabbleScoreboard.Studies.Domain.Fanout;
+using ScrabbleScoreboard.Studies.Domain.Shared;
 using System.Text;
 using System.Text.Json;
 
@@ -23,7 +24,7 @@ namespace ScrabbleScoreboard.Producer
                 exchange: exchangeName,
                 type: ExchangeType.Fanout);
 
-            var result = new ResultSubmitted
+            var result = new ScrabbleScoreboard.Studies.Domain.Fanout.ResultSubmitted
             {
                 ResultId = Guid.NewGuid(),
                 PlayerName = "Karl Kruger",
