@@ -175,13 +175,62 @@ namespace ScrabbleScoreboad.Consumer
             Console.ResetColor();
         }
 
-        private static async Task StartCompletionService() {
+        private static async Task StartCompletionService()
+        {
+            var factory = new ConnectionFactory
+            {
+                HostName = "localhost"
+            };
+
+            var connection = await factory.CreateConnectionAsync();
+            var channel = await connection.CreateChannelAsync();
+
+            await channel.ExchangeDeclareAsync(
+                exchange: RabbitConstants.ProcessedExchange,
+                type: ExchangeType.Fanout);
+
+            await channel.QueueDeclareAsync(
+                queue: RabbitConstants.CompletionQueue,
+                durable: true,
+                exclusive: false,
+                autoDelete: false);
+
+            await channel.QueueBindAsync(
+                queue: RabbitConstants.CompletionQueue,
+                exchange: RabbitConstants.ProcessedExchange,
+                routingKey: string.Empty);
+
+            var consumer = new AsyncEventingBasicConsumer(channel);
+
+            consumer.ReceivedAsync += async (_, ea) =>
+            {
+                var json = Encoding.UTF8.GetString(ea.Body.ToArray());
+
+                var processed =
+                    JsonSerializer.Deserialize<MessageProcessed>(json);
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                Console.WriteLine(
+                    $"[Completion] Received MessageProcessed: {processed?.CorrelationId}");
+
+                Console.WriteLine(
+                    $"[Completion] Workflow Complete");
+
+                Console.ResetColor();
+
+                await Task.CompletedTask;
+            };
+
+            await channel.BasicConsumeAsync(queue: RabbitConstants.CompletionQueue,
+        autoAck: true,
+        consumer: consumer);
+
             Console.ForegroundColor = ConsoleColor.Cyan;
+
             Console.WriteLine("Completion Service Started");
+
             Console.ResetColor();
-
-            await Task.CompletedTask;
         }
-
     }
 }
