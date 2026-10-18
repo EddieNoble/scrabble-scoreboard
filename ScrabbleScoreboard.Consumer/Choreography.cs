@@ -223,8 +223,8 @@ namespace ScrabbleScoreboad.Consumer
             };
 
             await channel.BasicConsumeAsync(queue: RabbitConstants.CompletionQueue,
-        autoAck: true,
-        consumer: consumer);
+                autoAck: true,
+                consumer: consumer);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
 
