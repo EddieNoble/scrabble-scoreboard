@@ -52,5 +52,11 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("leaderboard")]
+        public IActionResult GetLeaderboard()
+        {
+            return Ok(_resultService.GetLeaderboard());
+        }
     }
 }
