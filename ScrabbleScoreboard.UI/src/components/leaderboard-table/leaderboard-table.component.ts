@@ -1,6 +1,6 @@
 ﻿import {Component, inject } from '@angular/core';
-import { LeaderboardEntry } from '../../models/leaderboard-entry';
-import { LeaderboardService } from '../../services/leaderboard.service';
+import { LeaderboardEntry } from '../../app/core/models/leaderboard-entry';
+import { LeaderboardService } from '../../app/core/services/leaderboard.service';
 
 @Component({
   selector: 'app-leaderboard-table',
