@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\ScrabbleScoreboard.Domain\ScrabbleScoreboard.Domain.csproj" />
   </ItemGroup>
 
 </Project>
