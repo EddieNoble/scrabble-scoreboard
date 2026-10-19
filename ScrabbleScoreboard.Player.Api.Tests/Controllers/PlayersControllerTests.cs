@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ScrabbleScoreboard.Domain;
 using ScrabbleScoreboard.Player.Api.Controllers;
-using ScrabbleScoreboard.Player.Api.Services;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
 
 namespace ScrabbleScoreboard.Player.Api.Tests.Controllers;
@@ -16,7 +13,7 @@ public class PlayersControllerTests
     {
         // Arrange
 
-        var players = new List<Player>
+        var players = new List<Domain.Player>
         {
             new()
             {
@@ -48,7 +45,7 @@ public class PlayersControllerTests
         Assert.IsNotNull(okResult.Value);
 
         var returnedPlayers =
-            (IEnumerable<Player>)okResult.Value;
+            (IEnumerable<Domain.Player>)okResult.Value;
 
         Assert.AreEqual(1, returnedPlayers.Count());
     }

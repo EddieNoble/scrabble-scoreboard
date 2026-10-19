@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ScrabbleScoreboard.Domain;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
 
 namespace ScrabbleScoreboard.Player.Api.Controllers
@@ -18,15 +17,7 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new List<Domain.Player>
-            {
-                new()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Karl Kruger",
-                    EmailAddress = "karl@example.com"
-                }
-            });
+            return Ok(_playerService.GetPlayers());
         }
     }
 }

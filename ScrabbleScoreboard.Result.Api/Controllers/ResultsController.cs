@@ -17,15 +17,7 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new List<Domain.Result>
-        {
-            new()
-            {
-                Id = Guid.NewGuid(),
-                PlayerId = Guid.NewGuid(),
-                Score = 850
-            }
-        });
+            return Ok(_resultService.GetResults());
         }
     }
 }

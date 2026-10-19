@@ -6,12 +6,31 @@ namespace ScrabbleScoreboard.Result.Api.Services
     {
         public Domain.Result? GetResult(Guid id)
         {
-            throw new NotImplementedException();
+            return new Domain.Result
+            {
+                Id = id,
+                PlayerId = Guid.NewGuid(),
+                Score = 99
+            };
         }
 
         public IEnumerable<Domain.Result> GetResults()
         {
-            throw new NotImplementedException();
+            return new List<Domain.Result>
+            {
+                new Domain.Result
+                {
+                    Id = Guid.NewGuid(),
+                    PlayerId = Guid.NewGuid(),
+                    Score = 99
+                },
+                new Domain.Result
+                {
+                    Id = Guid.NewGuid(),
+                    PlayerId = Guid.NewGuid(),
+                    Score = 133
+                }
+            };
         }
     }
 }
