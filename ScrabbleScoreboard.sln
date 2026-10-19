@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.10.12224.181 stable
+VisualStudioVersion = 18.10.12224.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Studies", "ScrabbleScoreboard.Studies\ScrabbleScoreboard.Studies.csproj", "{742176AE-5538-4F94-A272-1C57259E7A54}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Consumer", "ScrabbleScoreboard.Consumer\ScrabbleScoreboard.Consumer.csproj", "{B7BFACC1-8EBE-4A06-BDD3-DA278EE2CF7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Studies.Domain", "ScrabbleScoreboard.Studies.Domain\ScrabbleScoreboard.Studies.Domain.csproj", "{59DC4177-396C-3CE2-0F43-340BF623DE28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Domain", "ScrabbleScoreboard.Domain\ScrabbleScoreboard.Domain.csproj", "{63845EA5-5B9A-4596-BBD1-2CCD28600F98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Domain.Tests", "ScrabbleScoreboard.Domain.Tests\ScrabbleScoreboard.Domain.Tests.csproj", "{0D4F234D-95AC-4040-A302-49AE3385F8AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{59DC4177-396C-3CE2-0F43-340BF623DE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59DC4177-396C-3CE2-0F43-340BF623DE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59DC4177-396C-3CE2-0F43-340BF623DE28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63845EA5-5B9A-4596-BBD1-2CCD28600F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63845EA5-5B9A-4596-BBD1-2CCD28600F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63845EA5-5B9A-4596-BBD1-2CCD28600F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63845EA5-5B9A-4596-BBD1-2CCD28600F98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D4F234D-95AC-4040-A302-49AE3385F8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D4F234D-95AC-4040-A302-49AE3385F8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D4F234D-95AC-4040-A302-49AE3385F8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D4F234D-95AC-4040-A302-49AE3385F8AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
