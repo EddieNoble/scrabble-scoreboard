@@ -2,6 +2,7 @@
 import {RouterLink} from '@angular/router';
 import { Player } from '../../app/core/models/player';
 import { PlayerService } from '../../app/core/services/player.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-players',
@@ -20,7 +21,8 @@ export class PlayersComponent implements OnInit {
   selectedPlayer?: Player;
 
   constructor(
-    private readonly playerService: PlayerService
+    private readonly playerService: PlayerService,
+    private readonly changeDetector: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -30,8 +32,8 @@ export class PlayersComponent implements OnInit {
       .subscribe(players => {
 
         console.log(players);
-
         this.players = players;
+        this.changeDetector.detectChanges();
 
         console.log('Assigned length:', this.players.length);
 
@@ -40,14 +42,5 @@ export class PlayersComponent implements OnInit {
         });
 
       });
-
-    this.playerService
-      .getPlayer('87c95bdb-2793-46c9-849c-2213a5c9178f')
-      .subscribe(player => {
-
-        this.selectedPlayer = player;
-
-    });
-}
-
+    }
 }

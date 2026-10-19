@@ -1,20 +1,25 @@
-﻿<h1>{{ displayName }}</h1>
-
-<div>
+﻿<div>
   <h2>The Players</h2>
   <p>
-    Player Count: {{ players.length }}
+    Total Players: {{ players.length }}
   </p>
-  <ul>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
   @for (player of players; track player.id) {
-    <li>{{ player.name }}</li>
+    <tr>
+      <td>{{ player.name }}</td>
+      <td>{{ player.emailAddress }}</td>
+      <td><a href="players">Edit</a></td>
+    </tr>
   }
-  </ul>
-
-  <p>First Player: {{ players[0]?.name }}</p>
+</table>
 </div>
 
-
+<hr/>
 <a routerLink="/">
   ← Home
 </a>
