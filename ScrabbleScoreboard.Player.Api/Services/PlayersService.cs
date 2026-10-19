@@ -25,7 +25,7 @@ namespace ScrabbleScoreboard.Player.Api.Services
 
         public Domain.Player? GetPlayer(Guid id)
         {
-            return GetPlayers().FirstOrDefault(x => x.Id == id);
+            return GetPlayers().FirstOrDefault(); //GetPlayers().FirstOrDefault(x => x.Id == id);
         }
     }
 }
