@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Domain",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Domain.Tests", "ScrabbleScoreboard.Domain.Tests\ScrabbleScoreboard.Domain.Tests.csproj", "{0D4F234D-95AC-4040-A302-49AE3385F8AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Player.Api", "ScrabbleScoreboard.Player.Api\ScrabbleScoreboard.Player.Api.csproj", "{78CD9B38-B4BF-4F45-A97D-3F6C23FCBE7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{0D4F234D-95AC-4040-A302-49AE3385F8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D4F234D-95AC-4040-A302-49AE3385F8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D4F234D-95AC-4040-A302-49AE3385F8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78CD9B38-B4BF-4F45-A97D-3F6C23FCBE7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78CD9B38-B4BF-4F45-A97D-3F6C23FCBE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78CD9B38-B4BF-4F45-A97D-3F6C23FCBE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78CD9B38-B4BF-4F45-A97D-3F6C23FCBE7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
