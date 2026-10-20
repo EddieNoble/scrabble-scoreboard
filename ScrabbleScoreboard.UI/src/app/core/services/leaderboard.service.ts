@@ -1,31 +1,19 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { inject, Injectable } from '@angular/core';
+import { Observable } from "rxjs";
 import { LeaderboardEntry } from '../models/leaderboard-entry';
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaderboardService {
 
-  getLeaderboard(): LeaderboardEntry[] {
-    return [
-      {
-        position: 1,
-        playerName: 'Peter Jones',
-        gamesPlayed: 12,
-        totalScore: 1845
-      },
-      {
-        position: 2,
-        playerName: 'Jane Smith',
-        gamesPlayed: 12,
-        totalScore: 1788
-      },
-      {
-        position: 3,
-        playerName: 'John Brown',
-        gamesPlayed: 12,
-        totalScore: 1644
-      }
-    ];
+  private readonly http = inject(HttpClient);
+
+  private readonly endpoint =
+    'https://localhost:7210/api/results/leaderboard';
+
+  getLeaderboard(): Observable<LeaderboardEntry[]> {
+    return this.http.get<LeaderboardEntry[]>(this.endpoint)
   }
 }

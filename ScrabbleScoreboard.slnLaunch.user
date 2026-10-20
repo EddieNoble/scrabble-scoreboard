@@ -24,5 +24,18 @@
         "Action": "Start"
       }
     ]
+  },
+  {
+    "Name": "PlayerApi_ResultApi",
+    "Projects": [
+      {
+        "Path": "ScrabbleScoreboard.Player.Api\\ScrabbleScoreboard.Player.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ScrabbleScoreboard.Result.Api\\ScrabbleScoreboard.Result.Api.csproj",
+        "Action": "Start"
+      }
+    ]
   }
 ]
