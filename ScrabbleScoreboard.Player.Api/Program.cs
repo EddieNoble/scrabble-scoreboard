@@ -1,3 +1,4 @@
+using ScrabbleScoreboard.Player.Api.Persistence;
 using ScrabbleScoreboard.Player.Api.Services;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IPlayerService, PlayersService>();
+builder.Services.AddSingleton<LiteDbContext>();
 
 builder.Services.AddEndpointsApiExplorer();
 
