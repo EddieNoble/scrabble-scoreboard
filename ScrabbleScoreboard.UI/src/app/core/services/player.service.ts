@@ -25,4 +25,10 @@ export class PlayerService {
       `${this.endpoint}/${id}`
     );
   }
+
+  public addPlayer( player: Player): Observable<Player> {
+    return this.http.post<Player>(
+        this.endpoint,
+        player);
+      }
 }

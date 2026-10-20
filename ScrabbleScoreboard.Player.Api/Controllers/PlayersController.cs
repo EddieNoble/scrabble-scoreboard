@@ -51,5 +51,17 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
 
             return Ok(player);
         }
+
+        /// <summary>
+        /// Adds a new player.
+        /// </summary>
+        /// <param name="player">The player to add.</param>
+        /// <returns>The created player.</returns>
+        [HttpPost]
+        public IActionResult Create([FromBody] Domain.Player player)
+        {
+            return Ok(player);
+        }
     }
 }
+    

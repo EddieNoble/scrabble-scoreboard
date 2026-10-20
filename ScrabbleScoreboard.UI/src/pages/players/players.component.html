@@ -18,6 +18,26 @@
   }
 </table>
 </div>
+<hr/>
+<div>
+  <h3>Add Player</h3>
+
+<div>
+    <label>Name</label>
+    <input [(ngModel)]="newPlayerName">
+</div>
+
+<div>
+    <label>Email Address</label>
+    <input [(ngModel)]="newPlayerEmail">
+</div>
+
+<div>
+    <button (click)="addPlayer()">Add Player</button>
+</div>
+
+</div>
+
 
 <hr/>
 <a routerLink="/">
