@@ -10,11 +10,11 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
     [Route("api/messaging")]
     public class MessagingController: ControllerBase
     {
-        private readonly IMessagePublisher _publisher;
+        private readonly IMessagingAdminService _adminService;
 
-        public MessagingController(IMessagePublisher publisher)
+        public MessagingController(IMessagingAdminService adminService)
         {
-            _publisher = publisher;
+            _adminService = adminService;
         }
 
         /// <summary>
@@ -24,10 +24,21 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
         [HttpPost("health")]
         public async Task<IActionResult> Health()
         {
-            await _publisher.PublishHealthMessageAsync();
+            await _adminService.PublishHealthMessageAsync();
 
-            return Ok(
-                "Pipeline health message published.");
+            return Ok(new
+            {
+                Message = "Pipeline health message published."
+            });
+        }
+
+        [HttpGet("health/messages")]
+        public async Task<IActionResult> GetHealthMessages()
+        {
+            var messages =
+                await _adminService.GetHealthMessagesAsync();
+
+            return Ok(messages);
         }
     }
 }

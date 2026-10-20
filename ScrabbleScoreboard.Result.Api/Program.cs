@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IResultService, ResultService>();
-builder.Services.AddScoped<IMessagePublisher, RabbitMessagePublisher>();
+builder.Services.AddScoped<IMessagingAdminService, RabbitMessagingAdminService>();
 
 builder.Services.AddEndpointsApiExplorer();
 
