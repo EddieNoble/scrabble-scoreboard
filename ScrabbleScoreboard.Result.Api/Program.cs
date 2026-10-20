@@ -1,3 +1,5 @@
+using ScrabbleScoreboard.Result.Api.Models.Messaging;
+using ScrabbleScoreboard.Result.Api.Models.Messaging.Interfaces;
 using ScrabbleScoreboard.Result.Api.Services;
 using ScrabbleScoreboard.Result.Api.Services.Interfaces;
 
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IResultService, ResultService>();
+builder.Services.AddScoped<IMessagePublisher, RabbitMessagePublisher>();
 
 builder.Services.AddEndpointsApiExplorer();
 
