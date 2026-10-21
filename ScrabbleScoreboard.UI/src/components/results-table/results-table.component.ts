@@ -1,5 +1,7 @@
 import {Component } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
+import { ResultService } from '../../app/core/services/result.service';
+import { ResultDto } from '../../app/core/models/result-dto';
+
 
 @Component({
   selector: 'app-results-table',
@@ -10,4 +12,12 @@ import { ChangeDetectorRef } from '@angular/core';
 export class ResultsTableComponent {
 
   displayName = 'Results';
+  resultDtos: ResultDto[];
+
+  constructor(
+    private readonly resultService: ResultService
+  ) {
+    this.resultDtos = this.resultService.getResultDtos();
+  }
+
 }
