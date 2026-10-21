@@ -30,12 +30,6 @@ export class LeaderboardTableComponent {
         this.leaderboardEntries = entries;
         this.changeDetector.detectChanges();
 
-        console.log('Assigned length:', this.leaderboardEntries.length);
-
-        setTimeout(() => {
-          console.log('One second later:', this.leaderboardEntries.length);
-        });
-
       });
     }
 }

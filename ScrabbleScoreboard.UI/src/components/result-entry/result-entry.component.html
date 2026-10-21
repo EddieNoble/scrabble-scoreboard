@@ -1,0 +1,22 @@
+
+<div>   
+  <label>Player</label>
+<select [(ngModel)]="selectedPlayerId">
+  @for (player of players; track player.id) {
+    <option [value]="player.id">
+      {{ player.name }}
+    </option>
+  }
+</select>
+</div>
+
+<div>
+  <label>Score</label>
+  <input
+    type="number"
+    [(ngModel)]="score">
+</div>
+
+<button (click)="save()">
+  Save
+</button>

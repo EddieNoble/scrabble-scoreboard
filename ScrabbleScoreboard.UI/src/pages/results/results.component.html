@@ -1,5 +1,18 @@
+<div class="page-header">
 <h2>Results</h2>
-<app-results-table></app-results-table>
+
+  <button type="button" (click)="toggleMode()">
+    {{ displayMode() ? 'Add Result' : 'View Results' }}
+  </button>
+</div>
+
+@if (displayMode()) {
+<app-results-table></app-results-table>}
+@else {
+  <div class="result-entry-placeholder">
+    <app-result-entry></app-result-entry>
+  </div>
+}
 
 <hr/>
 
