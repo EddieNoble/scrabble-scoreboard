@@ -1,0 +1,41 @@
+[
+  {
+    "Name": "Producer_Then_Consumer",
+    "Projects": [
+      {
+        "Path": "ScrabbleScoreboard.Producer\\ScrabbleScoreboard.Producer.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ScrabbleScoreboard.Consumer\\ScrabbleScoreboard.Consumer.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "Consumer_Then_Producer",
+    "Projects": [
+      {
+        "Path": "ScrabbleScoreboard.Consumer\\ScrabbleScoreboard.Consumer.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ScrabbleScoreboard.Producer\\ScrabbleScoreboard.Producer.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "PlayerApi_ResultApi",
+    "Projects": [
+      {
+        "Path": "ScrabbleScoreboard.Player.Api\\ScrabbleScoreboard.Player.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ScrabbleScoreboard.Result.Api\\ScrabbleScoreboard.Result.Api.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

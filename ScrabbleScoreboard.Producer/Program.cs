@@ -1,39 +1,11 @@
-﻿using RabbitMQ.Client;
-using System.Text;
+﻿
+using ScrabbleScoreboard.Producer;
 
-await Demo1_Queue();
+// await SimpleSendReceive.Demo1();
+// await FanOut.Demo1();
+// await Choreography.Demo1();
+await Compensation.Demo1();
+Console.WriteLine("Producer Demo Run Complete.");
+Console.ReadLine();
+
 return;
-
-async Task Demo1_Queue()
-{
-    var factory = new ConnectionFactory
-    {
-        HostName = "localhost"
-    };
-
-    await using var connection = await factory.CreateConnectionAsync();
-    await using var channel = await connection.CreateChannelAsync();
-
-    await channel.QueueDeclareAsync(
-        queue: "scrabble-demo",
-        durable: true,
-        exclusive: false,
-        autoDelete: false);
-
-    var message = """
-                  {
-                      "eventType": "PlayerRegistered",
-                      "playerId": "1"
-                  }
-                  """;
-
-    var body = Encoding.UTF8.GetBytes(message);
-
-    await channel.BasicPublishAsync(
-        exchange: "",
-        routingKey: "scrabble-demo",
-        body: body,
-        cancellationToken: CancellationToken.None);
-
-    Console.WriteLine($"Sent: {message}");
-}

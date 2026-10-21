@@ -1,0 +1,191 @@
+Scrabble Scoreboard Project Status Brief
+Objective
+
+Deliver a demonstrable Scrabble Scoreboard application showcasing:
+
+Clean architecture
+Domain modelling
+Test-first development
+REST APIs
+Angular front end
+RabbitMQ messaging
+Persistence strategy
+Incremental delivery
+
+The focus has been on building a solid foundation and reducing technical risk before implementing advanced functionality.
+
+Completed
+RabbitMQ Research & Proofs
+
+Implemented and validated:
+
+Simple Send/Receive
+Fan-Out Messaging
+Choreography Pattern
+Compensation Pattern
+
+Outcome:
+
+Core RabbitMQ concepts understood
+Working reference implementations available
+Messaging architecture validated
+Domain Layer
+
+Created and tested:
+
+Player
+Game
+Result
+LeaderboardEntry
+
+Implemented business rules:
+
+Valid game player counts
+Result validation
+
+Outcome:
+
+Core business model established
+Business rules captured in tests
+API Layer
+
+Implemented:
+
+Player API
+Results API
+Service layer interfaces
+Dependency Injection
+Swagger/OpenAPI
+
+Outcome:
+
+API endpoints available and testable
+Architecture established
+Front-End
+
+Implemented:
+
+Angular HTTP infrastructure
+Player service
+Leaderboard service
+Players page
+Leaderboard page
+
+Outcome:
+
+Angular successfully consuming live API data
+End-to-end flow validated
+Leaderboard
+
+Implemented:
+
+Deterministic game generation
+Leaderboard calculation
+Ranking logic
+
+Outcome:
+
+Real calculated leaderboard
+Not hard-coded display data
+Messaging Administration Prototype
+
+Implemented:
+
+MessagingController
+Rabbit publisher
+Rabbit consumer
+Health message contract
+
+Validated:
+
+Angular → API → RabbitMQ
+RabbitMQ → Consumer
+Queue retrieval
+
+Outcome:
+
+Messaging infrastructure proven
+Foundation for future standard messaging diagnostics
+Current State
+
+Working:
+
+Angular
+    ↓
+API
+    ↓
+Services
+    ↓
+Business Logic
+
+
+Working:
+
+Angular
+    ↓
+Messaging Controller
+    ↓
+RabbitMQ
+    ↓
+Consumer
+
+Immediate Next Steps
+Persistence
+
+Introduce LiteDB:
+
+LiteDbContext
+Seeded Players collection
+Repository abstraction
+
+Initial dataset:
+
+6 seeded players
+Stable GUIDs
+Demo-ready data
+Player Maintenance
+
+Add:
+
+Create Player endpoint
+Player entry form
+LiteDB persistence
+UI Improvements
+
+Add:
+
+Games page
+Display generated games
+Correlate games with leaderboard scores
+Refactoring
+
+Potential future improvements:
+
+Dedicated LeaderboardController
+MessagingAdmin shared package
+Service registration extensions
+Angular component decomposition
+Architectural Conclusions
+
+Validated:
+
+API-first approach
+Angular consumption model
+RabbitMQ integration strategy
+Deterministic data generation for demos
+Incremental delivery approach
+Overall Assessment
+
+Project has moved from:
+
+Research
+
+
+to:
+
+Working Application
+
+
+with all major technical risks now substantially reduced.
+
+The remaining work is primarily implementation and refinement rather than discovery.

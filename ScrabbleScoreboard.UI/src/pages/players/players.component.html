@@ -1,0 +1,45 @@
+﻿<div>
+  <h2>The Players</h2>
+  <p>
+    Total Players: {{ players.length }}
+  </p>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  @for (player of players; track player.id) {
+    <tr>
+      <td>{{ player.name }}</td>
+      <td>{{ player.emailAddress }}</td>
+      <td><a href="players">Edit</a></td>
+    </tr>
+  }
+</table>
+</div>
+<hr/>
+<div>
+  <h3>Add Player</h3>
+
+<div>
+    <label>Name</label>
+    <input [(ngModel)]="newPlayerName">
+</div>
+
+<div>
+    <label>Email Address</label>
+    <input [(ngModel)]="newPlayerEmail">
+</div>
+
+<div>
+    <button (click)="addPlayer()">Add Player</button>
+</div>
+
+</div>
+
+
+<hr/>
+<a routerLink="/">
+  ← Home
+</a>

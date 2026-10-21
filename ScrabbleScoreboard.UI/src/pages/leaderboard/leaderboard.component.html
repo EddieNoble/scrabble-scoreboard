@@ -1,0 +1,23 @@
+﻿<div>
+  <h3>Send to Queue Test</h3>
+  <button (click)="runSendHealthCheck()">Pipeline Send Health</button>
+  <p>
+    {{ pipelineSendStatus }}
+  </p>
+</div>
+
+<div>
+  <h3>Retrieve from Queue Test</h3>
+  <button (click)="runRetrieveHealthCheck()">Pipeline Retrieve Health </button>
+  <p>
+    {{ pipelineRetrieveStatus }}
+  </p>
+</div>
+
+<app-leaderboard-table></app-leaderboard-table>
+
+<hr/>
+
+<a routerLink="/">
+  ← Home
+</a>
