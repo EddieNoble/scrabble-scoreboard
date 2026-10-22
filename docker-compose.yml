@@ -12,5 +12,25 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
+  players-db:
+    image: postgres:16
+    container_name: scrabble-players-db
+    environment:
+      POSTGRES_DB: players
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+
+  results-db:
+    image: postgres:16
+    container_name: scrabble-results-db
+    environment:
+      POSTGRES_DB: results
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
 volumes:
-  rabbitmq_data:
+  rabbitmq_data:   
+
