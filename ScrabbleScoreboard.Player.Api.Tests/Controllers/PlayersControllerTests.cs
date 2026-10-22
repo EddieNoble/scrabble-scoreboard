@@ -9,7 +9,7 @@ namespace ScrabbleScoreboard.Player.Api.Tests.Controllers;
 public class PlayersControllerTests
 {
     [TestMethod]
-    public void Get_Returns_Ok_With_Players()
+    public async Task Get_Returns_Ok_With_Players()
     {
         // Arrange
 
@@ -26,15 +26,15 @@ public class PlayersControllerTests
         var playerService = new Mock<IPlayerService>();
 
         playerService
-            .Setup(x => x.GetPlayers())
-            .Returns(players);
+            .Setup(x => x.GetPlayersAsync())
+            .ReturnsAsync(players);
 
         var controller =
             new PlayersController(playerService.Object);
 
         // Act
 
-        var result = controller.Get();
+        var result = await controller.Get();
 
         // Assert
 

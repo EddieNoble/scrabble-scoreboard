@@ -27,9 +27,9 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
         /// Retrieves all registered players.
         /// </summary>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_playerService.GetPlayers());
+            return Ok(await _playerService.GetPlayersAsync());
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var player = _playerService.GetPlayer(id);
+            var player = await _playerService.GetPlayerAsync(id);
 
             if (player == null)
             {

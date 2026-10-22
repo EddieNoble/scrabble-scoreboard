@@ -7,9 +7,11 @@ namespace ScrabbleScoreboard.Player.Api.Services.Interfaces
     /// </summary>
     public interface IPlayerService
     {
-        IEnumerable<Domain.Player> GetPlayers();
+        Task<IEnumerable<Domain.Player>> GetPlayersAsync();
 
-        Domain.Player? GetPlayer(Guid id);
+        Task <Domain.Player?> GetPlayerAsync(Guid id);
+
+        Task <Domain.Player>AddPlayerAsync(Domain.Player player);
     }
 
 }
