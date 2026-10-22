@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ScrabbleScoreboard.Player.Api.Persistence;
 using ScrabbleScoreboard.Player.Api.Services;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
@@ -12,6 +13,11 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IPlayerService, PlayersService>();
 builder.Services.AddSingleton<LiteDbContext>();
+
+builder.Services.AddDbContext<PlayersDbContext>(
+    options =>
+        options.UseNpgsql(
+            builder.Configuration.GetConnectionString("PlayersDb")));
 
 builder.Services.AddEndpointsApiExplorer();
 
