@@ -1,0 +1,272 @@
+Scrabble Scoreboard Project - 21 Oct 2026 Progress Summary
+Overall Position
+
+The project has now moved firmly beyond technical discovery and into feature implementation.
+
+Major technical risks are considered resolved:
+
+Angular front-end architecture proven.
+REST API integration proven.
+RabbitMQ integration proven.
+Domain model established.
+Leaderboard calculation working.
+End-to-end application flow demonstrated.
+
+Focus has shifted from proving technologies to building application functionality.
+
+Results Feature
+New Results Page
+
+Implemented:
+
+Results Page
+
+
+with routing and navigation integrated into the Angular application.
+
+Purpose:
+
+Dedicated location for result management.
+Future home of result entry functionality.
+Reusable within Games functionality later.
+Result Table
+
+Implemented:
+
+ResultTableComponent
+
+
+Used purely for display purposes.
+
+Decision:
+
+Retain table for displaying results.
+Future result entry functionality will be handled separately rather than forcing editing into the table itself.
+Result Service
+
+Created:
+
+ResultService
+
+
+Containing local in-memory dummy data.
+
+Current state:
+
+ResultService
+    ↓
+ResultTableComponent
+
+
+Data successfully displayed via Angular service.
+
+Changes checked in.
+
+Display / Entry Mode Toggle
+
+Implemented on Results page.
+
+Current behaviour:
+
+View Results
+    ↔
+Result Entry Placeholder
+
+
+Purpose:
+
+Demonstrate conditional rendering.
+Demonstrate component switching.
+Simple introduction to "mode" concepts.
+
+Current implementation deliberately lightweight.
+
+Future mode framework deferred until later.
+
+Player Dropdown Investigation
+
+Result entry form requires player selection.
+
+Player data already retrieved via API using:
+
+PlayerService
+
+
+Issue encountered:
+
+Players successfully retrieved
+Dropdown remained empty
+
+
+Cause:
+
+Change detection/update notification issue similar to previous Angular experiences.
+
+Resolution:
+
+ChangeDetectorRef.detectChanges()
+
+
+called after player retrieval.
+
+Result:
+
+✅ Player list loads from API.
+
+✅ Dropdown populates correctly.
+
+Architectural Decisions
+No Signals (For Now)
+
+Decision taken to defer:
+
+Signals
+Reactive state improvements
+Change detection rework
+
+
+Reason:
+
+Known issue area.
+Not required for demonstrating current functionality.
+Better handled as a dedicated future work item.
+
+Current preference:
+
+Simple services
+Simple collections
+Manual refresh if required
+
+Match → Game Terminology
+
+Discussion held regarding terminology.
+
+Decision:
+
+Use "Game"
+
+
+rather than
+
+Match
+
+
+where practical.
+
+Reason:
+
+Aligns more naturally with Scrabble.
+Easier terminology for users.
+Earlier refactor cheaper than later refactor.
+
+Not fully completed yet.
+
+Persistence Direction
+
+Current thinking:
+
+Relational Store
+
+Proposed:
+
+EF Core
++
+PostgreSQL
+
+
+For:
+
+Players
+Games
+Results
+Leagues
+Seasons
+
+Viewed as natural relational data.
+
+NoSQL Usage Identified
+
+Strong candidate emerged:
+
+Event Archive
+
+
+Store:
+
+RabbitMQ messages
+Health checks
+Diagnostics
+Audit history
+
+Benefits:
+
+Genuine document-storage use case.
+Avoids artificial NoSQL adoption.
+Builds on existing RabbitMQ work.
+
+Potential future component:
+
+LeagueManager.Eventing
+
+
+or
+
+LeagueManager.EventArchive
+
+
+Reusable beyond Scrabble.
+
+Future Concept Discussions
+Event Stream Viewer
+
+Idea discussed:
+
+Real-time developer dashboard showing:
+
+Angular UI
+    ↓
+API
+    ↓
+Database Activity
+    ↓
+RabbitMQ Messages
+    ↓
+Event Archive
+
+
+Possible use cases:
+
+Debugging.
+Developer onboarding.
+Demonstrations.
+Architecture visualisation.
+
+Considered a promising future enhancement, but deliberately parked for now.
+
+Current Priority Order
+
+Agreed next path:
+
+1. Complete local Results Entry
+2. Basic UI styling
+3. Review against brief
+4. Introduce Persistence (EF + PostgreSQL)
+5. Create Player workflow
+6. Extend Games functionality
+7. Event Archive / NoSQL work
+
+General Assessment
+
+Confidence level significantly increased.
+
+Project now feels like:
+
+Feature Development
+
+
+rather than:
+
+Technology Investigation
+
+
+The architecture appears sound, major unknowns have been addressed, and there is sufficient functionality available to support ongoing demonstrations without needing to rush into unnecessary complexity. 🚀
