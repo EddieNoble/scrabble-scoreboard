@@ -4,10 +4,11 @@ namespace ScrabbleScoreboard.Result.Api.Persistence
 {
     public class ResultsDbContext: DbContext
     {
+        public ResultsDbContext(DbContextOptions<ResultsDbContext> options): base(options)
+        {
+        }
 
         public DbSet<Domain.Result> Results => Set<Domain.Result>();
-
-        public DbSet<Domain.LeaderboardEntry> LeaderboardEntries => Set<Domain.LeaderboardEntry>();
-
+    
     }
 }
