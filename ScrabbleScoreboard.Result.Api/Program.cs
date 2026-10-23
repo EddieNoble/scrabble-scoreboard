@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ScrabbleScoreboard.Result.Api.Models.Messaging;
 using ScrabbleScoreboard.Result.Api.Models.Messaging.Interfaces;
 using ScrabbleScoreboard.Result.Api.Persistence;
+using ScrabbleScoreboard.Result.Api.Persistence.Repositories;
+using ScrabbleScoreboard.Result.Api.Persistence.Repositories.Interfaces;
 using ScrabbleScoreboard.Result.Api.Services;
 using ScrabbleScoreboard.Result.Api.Services.Interfaces;
 
@@ -15,6 +17,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IResultService, ResultService>();
 builder.Services.AddScoped<IMessagingAdminService, RabbitMessagingAdminService>();
+builder.Services.AddScoped<IResultRepository, ResultRepository>();
 
 builder.Services.AddDbContext<ResultsDbContext>(
     options =>

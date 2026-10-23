@@ -1,45 +1,35 @@
 ﻿using ScrabbleScoreboard.Domain;
 using ScrabbleScoreboard.Result.Api.DemoData;
+using ScrabbleScoreboard.Result.Api.Persistence.Repositories.Interfaces;
 using ScrabbleScoreboard.Result.Api.Services.Interfaces;
 
 namespace ScrabbleScoreboard.Result.Api.Services
 {
     public class ResultService : IResultService
     {
-        public Domain.Result? GetResult(Guid id)
+        private readonly IResultRepository _resultRepository;
+
+        public ResultService(IResultRepository resultRepository)
         {
-            return new Domain.Result
-            {
-                Id = id,
-                PlayerId = Guid.NewGuid(),
-                Score = 99
-            };
+            _resultRepository = resultRepository;            
         }
 
-        public IEnumerable<Domain.Result> GetResults()
+        public async Task<Domain.Result?> GetResultAsync(Guid id)
         {
-            return new List<Domain.Result>
-            {
-                new Domain.Result
-                {
-                    Id = Guid.NewGuid(),
-                    PlayerId = Guid.NewGuid(),
-                    Score = 99
-                },
-                new Domain.Result
-                {
-                    Id = Guid.NewGuid(),
-                    PlayerId = Guid.NewGuid(),
-                    Score = 133
-                }
-            };
+            var allResults = await _resultRepository.GetAllAsync();
+
+            return allResults.SingleOrDefault(p => p.Id == id);
         }
 
-        public IEnumerable<LeaderboardEntry> GetLeaderboard()
+        public async Task<IEnumerable<Domain.Result>> GetResultsAsync()
         {
-            return GenerateLeaderboard();
+            return await _resultRepository.GetAllAsync();
         }
 
+        public async Task<IEnumerable<LeaderboardEntry>> GetLeaderboardAsync()
+        {
+            return await Task.FromResult(GenerateLeaderboard());
+        }
 
         private List<Game> GenerateGames()
         {
@@ -83,7 +73,6 @@ namespace ScrabbleScoreboard.Result.Api.Services
             return games;
         }
 
-
         private List<LeaderboardEntry> GenerateLeaderboard()
         {
             var players = DemoPlayers.Players;
@@ -119,6 +108,9 @@ namespace ScrabbleScoreboard.Result.Api.Services
             return leaderboard;
         }
 
-
+        public async Task<Domain.Result> CreateResultAsync(Domain.Result result)
+        {
+            return await _resultRepository.AddAsync(result);
+        }
     }
 }

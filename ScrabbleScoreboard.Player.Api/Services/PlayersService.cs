@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ScrabbleScoreboard.Player.Api.Persistence.Repositories.Interfaces;
+﻿using ScrabbleScoreboard.Player.Api.Persistence.Repositories.Interfaces;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
 
 namespace ScrabbleScoreboard.Player.Api.Services

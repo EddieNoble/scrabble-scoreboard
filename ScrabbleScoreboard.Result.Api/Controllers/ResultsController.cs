@@ -28,9 +28,9 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
         /// </summary>
         /// <returns>A collection of results.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_resultService.GetResults());
+            return Ok(await _resultService.GetResultsAsync());
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var result = _resultService.GetResult(id);
+            var result = await _resultService.GetResultAsync(id);
 
             if (result == null)
             {
@@ -53,10 +53,21 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("leaderboard")]
-        public IActionResult GetLeaderboard()
+        /// <summary>
+        /// Adds a new result.
+        /// </summary>
+        /// <param name="result">The result to add.</param>
+        /// <returns>The created result.</returns>
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Domain.Result result)
         {
-            return Ok(_resultService.GetLeaderboard());
+            return Ok(await _resultService.CreateResultAsync(result));
+        }
+
+        [HttpGet("leaderboard")]
+        public async Task<IActionResult> GetLeaderboard()
+        {
+            return Ok(await _resultService.GetLeaderboardAsync());
         }
     }
 }
