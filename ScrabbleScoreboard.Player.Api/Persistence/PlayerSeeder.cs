@@ -8,12 +8,15 @@ namespace ScrabbleScoreboard.Player.Api.Persistence
         {
             if (context.Players.Any())
             {
+                Console.WriteLine($"Existing players: {context.Players.Count()}");
                 return;
             }
 
             context.Players.AddRange(DemoPlayers.Players);
 
             await context.SaveChangesAsync();
+
+            Console.WriteLine($"Seeded players: {context.Players.Count()}");
         }
     }
 

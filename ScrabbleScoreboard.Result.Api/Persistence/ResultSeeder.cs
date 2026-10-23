@@ -6,6 +6,7 @@
         {
             if (context.Results.Any())
             {
+                Console.WriteLine($"Existing results: {context.Results.Count()}");
                 return;
             }
 
@@ -17,6 +18,8 @@
                 games.SelectMany(x => x.Results));
 
             await context.SaveChangesAsync();
+
+            Console.WriteLine($"Seeded results: {context.Results.Count()}");
         }
     }
 }
