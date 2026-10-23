@@ -69,6 +69,8 @@ using (var scope = app.Services.CreateScope())
         .GetRequiredService<ResultsDbContext>();
 
     await db.Database.MigrateAsync();
+
+    await ResultSeeder.SeedAsync(db);
 }
 
 app.Run();

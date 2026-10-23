@@ -68,6 +68,8 @@ using (var scope = app.Services.CreateScope())
         .GetRequiredService<PlayersDbContext>();
 
     await db.Database.MigrateAsync();
+
+    await PlayerSeeder.SeedAsync(db);
 }
 
 app.Run();
