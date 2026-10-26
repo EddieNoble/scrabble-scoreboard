@@ -37,7 +37,7 @@ export class ResultEntryComponent {
       const player = this.players
       .find(p => p.id === this.selectedPlayerId);
 
-    console.log('Found this player: ', player );
+    console.log('Found this player:', player);
 
 
     if (!player) {
