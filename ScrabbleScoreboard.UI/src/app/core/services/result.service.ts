@@ -8,20 +8,15 @@ import { HttpClient } from "@angular/common/http";
 })
 export class ResultService {
 
-private readonly results: ResultDto[] = [ 
-        { gameId: '1', playerName: 'Alice', score: 100 },
-        { gameId: '2', playerName: 'Bob', score: 150 },
-        { gameId: '3', playerName: 'Charlie', score: 200 },
-        { gameId: '4', playerName: 'David', score: 250 },
-        { gameId: '5', playerName: 'Eve', score: 300 }
-    ];
-  
+  private readonly http = inject(HttpClient);
 
-  getResultDtos(): ResultDto[] {
-    return this.results;
+    private readonly endpoint = 'https://localhost:7210/api/results';
+
+  getResultDtos(): Observable<ResultDto[]> {
+      return this.http.get<ResultDto[]>(this.endpoint);
   }
 
-    addResult(result: ResultDto): void {
-    this.results.push(result);
+    addResult(result: ResultDto): Observable<ResultDto> {
+      return this.http.post<ResultDto>(this.endpoint, result);
   }
 }

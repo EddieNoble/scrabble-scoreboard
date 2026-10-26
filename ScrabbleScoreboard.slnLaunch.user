@@ -37,5 +37,22 @@
         "Action": "Start"
       }
     ]
+  },
+  {
+    "Name": "AllApis",
+    "Projects": [
+      {
+        "Path": "ScrabbleScoreboard.Player.Api\\ScrabbleScoreboard.Player.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ScrabbleScoreboard.Result.Api\\ScrabbleScoreboard.Result.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Scrabbleboard.Leaderboard.Api\\ScrabbleScoreboard.Leaderboard.Api.csproj",
+        "Action": "Start"
+      }
+    ]
   }
 ]

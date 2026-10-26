@@ -11,7 +11,7 @@ export class LeaderboardService {
   private readonly http = inject(HttpClient);
 
   private readonly endpoint =
-    'https://localhost:7210/api/results/leaderboard';
+    'https://localhost:7310/api/leaderboard';
 
   getLeaderboard(): Observable<LeaderboardEntry[]> {
     return this.http.get<LeaderboardEntry[]>(this.endpoint)
