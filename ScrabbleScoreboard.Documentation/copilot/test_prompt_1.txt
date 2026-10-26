@@ -1,0 +1,10 @@
+Review this controller and its associated unit tests.
+
+Identify:
+- Controller actions that are not tested
+- Error paths that are not tested
+- Boundary conditions that are not tested
+- Assertions that are incomplete
+
+Do not generate code yet.
+Summarise the gaps first.
