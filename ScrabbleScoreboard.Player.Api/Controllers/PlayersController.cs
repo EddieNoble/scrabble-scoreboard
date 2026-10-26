@@ -63,6 +63,21 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
             return Ok(await _playerService.AddPlayerAsync(player));
             
         }
+        
+        /// <summary>
+        /// Adds a new player.
+        /// </summary>
+        /// <param name="request">A Create Player Request.</param>
+        /// <returns>The created player.</returns>
+        [HttpPost("create-from-dto")]
+        public async Task<IActionResult> Create([FromBody] Domain.CreatePlayerRequest request)
+        {
+            var player = new Domain.Player{ Name = request.Name, EmailAddress = request.EmailAddress };
+            return Ok(await _playerService.AddPlayerAsync(player));
+            
+        }
+        
+        
     }
 }
     

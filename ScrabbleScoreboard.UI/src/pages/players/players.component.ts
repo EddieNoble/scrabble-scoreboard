@@ -4,6 +4,7 @@ import { Player } from '../../app/core/models/player';
 import { PlayerService } from '../../app/core/services/player.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CreatePlayerRequest } from '../../app/core/models/create-player-request';
 
 @Component({
   selector: 'app-players',
@@ -40,32 +41,25 @@ export class PlayersComponent implements OnInit {
       });
     }
 
-    public addPlayer(): void {
-    console.log({
+public addPlayer(): void {
+
+    const player: CreatePlayerRequest = {
         name: this.newPlayerName,
         emailAddress: this.newPlayerEmail
-    });
+    };
 
-
-    // public addPlayer(): void {
-
-    //     const player: Player = {
-    //         id: crypto.randomUUID(),
-    //         name: this.newPlayerName,
-    //         emailAddress: this.newPlayerEmail
-    //     };
-
-    //     this.playerService
-    //         .addPlayer(player)
-    //         .subscribe(savedPlayer => {
-
-    //             this.players.push(savedPlayer);
-
-    //             this.newPlayerName = '';
-    //             this.newPlayerEmail = '';
-
-    //         });
-    //}
-
-  }
+    this.playerService.addPlayer(player)
+        .subscribe({
+            next: response => {
+                console.log('Player added', response);
+                this.newPlayerName = '';
+                this.newPlayerEmail = '';
+            },
+            error: error => {
+                console.error('Failed to add player', error);
+            }
+        });
+      
+        this.changeDetector.detectChanges();
+}
 }

@@ -1,6 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Player } from "../models/player";
+import { CreatePlayerRequest } from "../models/create-player-request";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -12,6 +13,9 @@ export class PlayerService {
 
   private readonly endpoint =
     'https://localhost:7110/api/players';
+
+  private readonly createFromDtoEndpoint =
+    `${this.endpoint}/create-from-dto`;
 
   public getPlayers(): Observable<Player[]> {
 
@@ -26,9 +30,9 @@ export class PlayerService {
     );
   }
 
-  public addPlayer( player: Player): Observable<Player> {
+  public addPlayer( player: CreatePlayerRequest): Observable<Player> {
     return this.http.post<Player>(
-        this.endpoint,
+        this.createFromDtoEndpoint,
         player);
       }
 }

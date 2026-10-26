@@ -1,6 +1,7 @@
 import {Component } from '@angular/core';
 import { ResultService } from '../../app/core/services/result.service';
 import { ResultDto } from '../../app/core/models/result-dto';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -12,12 +13,18 @@ import { ResultDto } from '../../app/core/models/result-dto';
 export class ResultsTableComponent {
 
   displayName = 'Results';
-  resultDtos: ResultDto[];
+  resultDtos: ResultDto[] = [];
 
   constructor(
-    private readonly resultService: ResultService
+    private readonly resultService: ResultService,
+    private readonly changeDetector: ChangeDetectorRef
   ) {
-    this.resultDtos = this.resultService.getResultDtos();
+    this.resultService.getResultDtos()
+    .subscribe(results => {
+      console.log(results);
+      this.resultDtos = results;
+      this.changeDetector.detectChanges();
+    });
   }
 
 }

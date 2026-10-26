@@ -17,6 +17,7 @@ export class ResultService {
   }
 
     addResult(result: ResultDto): Observable<ResultDto> {
+      console.log('In service addResult method, about to submit', result);
       return this.http.post<ResultDto>(this.endpoint, result);
   }
 }

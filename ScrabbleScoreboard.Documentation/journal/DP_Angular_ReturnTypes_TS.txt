@@ -1,0 +1,224 @@
+Absolutely. In fact, I'd include it because it captures several important lessons simultaneously:
+
+Angular Observables
+TypeScript's type system
+Asynchronous programming
+Refactoring risk
+Why strong typing matters in front-end development
+
+Here's how I'd append it to the Starliner report.
+
+Angular Learning: Observable vs Array Refactoring Bug
+Scenario
+
+During Results page development, the application failed to compile with:
+
+TS2740:
+Type 'Subscription' is missing the following properties
+from type 'ResultDto[]':
+length, pop, push, concat...
+
+Root Cause
+
+The service had evolved from returning:
+
+ResultDto[]
+
+
+to returning:
+
+Observable<ResultDto[]>
+
+
+after API integration.
+
+Original component code assumed immediate access to data:
+
+this.resultDtos = this.resultService.getResultDtos();
+
+
+This was valid when the service returned a plain array.
+
+First Attempted Fix
+
+A subscription was introduced:
+
+this.resultDtos =
+    this.resultService.getResultDtos()
+        .subscribe(results => {
+            this.resultDtos = results;
+        });
+
+
+However this produced the same compilation error.
+
+Why?
+
+Because:
+
+subscribe(...)
+
+
+returns:
+
+Subscription
+
+
+not:
+
+ResultDto[]
+
+
+The code was therefore attempting to assign:
+
+Subscription
+
+
+to:
+
+ResultDto[]
+
+
+which TypeScript correctly rejected.
+
+Correct Solution
+this.resultService.getResultDtos()
+    .subscribe(results => {
+        this.resultDtos = results;
+    });
+
+
+Key change:
+
+The result of the subscription was no longer assigned.
+
+Instead:
+
+Observable
+    ↓
+Subscribe
+    ↓
+Result Arrives
+    ↓
+Populate Array
+
+Conceptual Lesson
+
+Three distinct concepts were being confused:
+
+ResultDto[]
+
+Represents:
+
+The data itself
+
+Observable<ResultDto[]>
+
+Represents:
+
+A future source of data
+
+
+or:
+
+"I will provide a ResultDto[] later."
+
+Subscription
+
+Represents:
+
+An active subscription to the Observable
+
+
+or:
+
+A handle proving we are listening.
+
+Why TypeScript Was Valuable
+
+TypeScript identified the issue during compilation.
+
+Without strong typing the application would have started successfully while assigning:
+
+Subscription
+
+
+into a variable expected to contain result data.
+
+Potential outcomes:
+
+Runtime exceptions.
+Empty UI rendering.
+Delayed failure elsewhere in the application.
+
+TypeScript prevented a runtime defect by detecting the mismatch during development.
+
+Wider Angular Lesson
+
+This exercise highlighted one of the major conceptual hurdles for developers transitioning from traditional .NET development.
+
+Typical .NET pattern:
+
+var results = repository.GetResults();
+
+
+Meaning:
+
+The data exists now.
+
+
+Common Angular patterns:
+
+Observable<ResultDto[]>
+Signal<ResultDto[]>
+Promise<ResultDto[]>
+
+
+Meaning:
+
+The data may exist later,
+or may change over time.
+
+
+Understanding the distinction between:
+
+Data
+Observable
+Signal
+Subscription
+
+
+is fundamental to understanding modern Angular state management.
+
+Potential Dev Practica Exercise
+Technical Assessment Question
+
+Given:
+
+resultDtos: ResultDto[] = [];
+
+this.resultDtos =
+    this.resultService.getResultDtos()
+        .subscribe(results => {
+            this.resultDtos = results;
+        });
+
+
+Questions:
+
+What is wrong?
+Why does the compiler object?
+What type is actually being assigned?
+How should the code be corrected?
+Why would this likely fail later in plain JavaScript rather than immediately in TypeScript?
+What does this tell us about the value of strong typing?
+Skills Assessed
+TypeScript
+Angular
+Observables
+Asynchronous programming
+Debugging
+Refactoring awareness
+Strong typing concepts
+
+I actually think this is one of the most valuable Angular lessons you've had so far because it's not framework trivia. It's a fundamental lesson about what data is, what a stream of data is, and what a subscription is. Once those concepts click, a surprising amount of Angular starts making sense. It would make an excellent Dev Practica article because it's a real-world bug, a realistic refactoring mistake, and a great illustration of why TypeScript frequently saves developers from themselves. 😄
