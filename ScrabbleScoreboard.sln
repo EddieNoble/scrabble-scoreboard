@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Player.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Result.Api.Tests", "ScrabbleScoreboard.Result.Api.Tests\ScrabbleScoreboard.Result.Api.Tests.csproj", "{76701EF3-C7D0-48CA-B6F8-824C6E2EB3B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Leaderboard.Api", "Scrabbleboard.Leaderboard.Api\ScrabbleScoreboard.Leaderboard.Api.csproj", "{C4491C1C-79A8-4502-BC49-3F5CD0AAE142}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrabbleScoreboard.Leaderboard.Api", "ScrabbleScoreboard.Leaderboard.Api\ScrabbleScoreboard.Leaderboard.Api.csproj", "{C4491C1C-79A8-4502-BC49-3F5CD0AAE142}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

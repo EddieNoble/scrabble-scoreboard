@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from '../../app/core/services/player.service';
 import { ResultService } from '../../app/core/services/result.service';
+import { Result } from '../../app/core/models/result';
 import { Player } from '../../app/core/models/player';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
@@ -8,6 +9,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-result-entry',
   templateUrl: './result-entry.component.html',
+  styleUrl: './result-entry.component.scss',
   imports: [FormsModule]
 })
 export class ResultEntryComponent {
@@ -34,21 +36,23 @@ export class ResultEntryComponent {
 
   save(): void {
 
-      const player = this.players
-      .find(p => p.id === this.selectedPlayerId);
+      const player = this.players.find(p => p.id === this.selectedPlayerId);
 
     console.log('Found this player:', player);
-
 
     if (!player) {
       return;
     }
 
-    this.resultService.addResult({
-      gameId: 'TEMP',
-      playerName: player.name,
+    const result: Result = {
+      id: crypto.randomUUID(),
+      playerId: player.id,
       score: this.score
-    });
+    };
+
+    console.log('Adding result:', result);
+
+    this.resultService.addResult(result)
 
     console.log('Result added');
   }

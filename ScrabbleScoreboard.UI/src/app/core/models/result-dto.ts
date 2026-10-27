@@ -1,5 +1,5 @@
 export interface ResultDto {
-  gameId: string;
+  id: string;
   playerName: string;
   score: number;
 }

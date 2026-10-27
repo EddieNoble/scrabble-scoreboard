@@ -30,7 +30,8 @@ namespace ScrabbleScoreboard.Result.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _resultService.GetResultsAsync());
+            var results = await _resultService.GetResultsAsync();
+            return Ok(results);
         }
 
         /// <summary>

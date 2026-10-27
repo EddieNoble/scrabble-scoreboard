@@ -104,5 +104,21 @@
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void Game_With_No_Players_Is_Invalid()
+        {
+            // Arrange
+
+            var game = new Game();
+
+            // Act
+
+            var result = game.IsValid();
+
+            // Assert
+
+            Assert.IsFalse(result);
+        }
+
     }
 }

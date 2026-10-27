@@ -1,21 +1,20 @@
-<div class="page-header">
-<h2>Results</h2>
+<div class="results-page">
+  <div class="page-header mb-5">
+  <h2>Results</h2>
+    <!-- <button type="button" (click)="toggleMode()">
+      {{ displayMode() ? 'Add Result' : 'View Results' }}
+    </button> -->
+  </div>
 
-  <button type="button" (click)="toggleMode()">
-    {{ displayMode() ? 'Add Result' : 'View Results' }}
-  </button>
-</div>
-
-@if (displayMode()) {
-<app-results-table></app-results-table>}
-@else {
-  <div class="result-entry-placeholder">
+  <div class="result-entry-placeholder mb-5">
     <app-result-entry></app-result-entry>
   </div>
-}
 
-<hr/>
+  <app-results-table></app-results-table>
 
-<a routerLink="/">
-  ← Home
-</a>
+  <hr/>
+
+  <a routerLink="/">
+    ← Home
+  </a>
+</div>

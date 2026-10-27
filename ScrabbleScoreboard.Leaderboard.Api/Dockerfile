@@ -7,11 +7,11 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Scrabbleboard.Leaderboard.Api/ScrabbleScoreboard.Leaderboard.Api.csproj", "Scrabbleboard.Leaderboard.Api/"]
+COPY ["ScrabbleScoreboard.Leaderboard.Api/ScrabbleScoreboard.Leaderboard.Api.csproj", "ScrabbleScoreboard.Leaderboard.Api/"]
 COPY ["ScrabbleScoreboard.Domain/ScrabbleScoreboard.Domain.csproj", "ScrabbleScoreboard.Domain/"]
-RUN dotnet restore "Scrabbleboard.Leaderboard.Api/ScrabbleScoreboard.Leaderboard.Api.csproj"
+RUN dotnet restore "ScrabbleScoreboard.Leaderboard.Api/ScrabbleScoreboard.Leaderboard.Api.csproj"
 COPY . .
-WORKDIR "/src/Scrabbleboard.Leaderboard.Api"
+WORKDIR "/src/ScrabbleScoreboard.Leaderboard.Api"
 RUN dotnet build "./ScrabbleScoreboard.Leaderboard.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
