@@ -1,4 +1,16 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AConnectionFactory_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2026_002E2_003Fresharper_002Dhost_003FSourcesCache_003F82aa1aabfcd130dd612ae896df0c4b457f625b269af95de47d424dc982d29c_003FConnectionFactory_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/dotCover/Editor/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Edward.Noble\AppData\Local\JetBrains\Rider2026.2\resharper-host\temp\Rider\vAny\CoverageData\_ScrabbleScoreboard.-1087268564\Snapshot\snapshot.utdcvr</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\Edward.Noble\.nuget\packages\rabbitmq.client\7.2.2\lib\net8.0\RabbitMQ.Client.dll" /&gt;&#xD;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=141cc0a9_002D7efc_002D4716_002Da322_002Dec46149073c1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;ScrabbleScoreboard.Domain.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="C:\Users\Edward.Noble\RiderProjects\ScrabbleScoreboard\ScrabbleScoreboard.Domain.Tests" Presentation="&amp;lt;ScrabbleScoreboard.Domain.Tests&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="C:\Users\Edward.Noble\RiderProjects\ScrabbleScoreboard\ScrabbleScoreboard.Player.Api.Tests" Presentation="&amp;lt;ScrabbleScoreboard.Player.Api.Tests&amp;gt;" /&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;MSTest::8A909589-8979-4BE2-B412-478931AB6EE4::net10.0::ScrabbleScoreboard.Leaderboard.Api.Tests.Controllers.LeaderboardControllerTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;MSTest::8A909589-8979-4BE2-B412-478931AB6EE4::net10.0::ScrabbleScoreboard.Leaderboard.Api.Tests.Services.LeaderboardServiceTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

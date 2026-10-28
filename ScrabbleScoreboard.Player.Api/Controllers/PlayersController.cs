@@ -27,9 +27,9 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
         /// Retrieves all registered players.
         /// </summary>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_playerService.GetPlayers());
+            return Ok(await _playerService.GetPlayersAsync());
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var player = _playerService.GetPlayer(id);
+            var player = await _playerService.GetPlayerAsync(id);
 
             if (player == null)
             {
@@ -58,10 +58,26 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
         /// <param name="player">The player to add.</param>
         /// <returns>The created player.</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Domain.Player player)
+        public async Task<IActionResult> Create([FromBody] Domain.Player player)
         {
-            return Ok(player);
+            return Ok(await _playerService.AddPlayerAsync(player));
+            
         }
+        
+        /// <summary>
+        /// Adds a new player.
+        /// </summary>
+        /// <param name="request">A Create Player Request.</param>
+        /// <returns>The created player.</returns>
+        [HttpPost("create-from-dto")]
+        public async Task<IActionResult> Create([FromBody] Domain.CreatePlayerRequest request)
+        {
+            var player = new Domain.Player{ Name = request.Name, EmailAddress = request.EmailAddress };
+            return Ok(await _playerService.AddPlayerAsync(player));
+            
+        }
+        
+        
     }
 }
     

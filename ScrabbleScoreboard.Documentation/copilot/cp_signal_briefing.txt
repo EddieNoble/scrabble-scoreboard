@@ -1,0 +1,304 @@
+Absolutely. I'd make this a dedicated section in the next Starliner briefing because it's become one of the most important Angular lessons from the project.
+
+Starliner Briefing Supplement
+Angular State Management Investigation
+Topic: Replacing ChangeDetector with Signals
+Background
+
+As the application evolved from static collections to API-backed data, several screens began exhibiting inconsistent refresh behaviour.
+
+Examples included:
+
+Leaderboard page
+Results page
+Player dropdowns
+
+Typical symptom:
+
+API returns data successfully
+↓
+Component property updated
+↓
+UI does not automatically refresh
+↓
+Manual refresh required
+
+
+Temporary workaround:
+
+ChangeDetectorRef.detectChanges()
+
+
+This successfully forces Angular to redraw the UI but is viewed as a tactical workaround rather than a strategic solution.
+
+Architectural Goal
+
+Move from:
+
+Service
+↓
+Observable
+↓
+Component List
+↓
+detectChanges()
+
+
+to:
+
+Service-Owned State
+↓
+Signal
+↓
+Automatic UI Update
+
+
+The objective is to establish a single, repeatable state-management pattern that can be applied consistently across:
+
+Players
+Results
+Leaderboard
+Future Game screens
+Key Conceptual Learning
+
+A useful distinction emerged between several commonly confused concepts.
+
+Data
+ResultDto[]
+
+
+Represents:
+
+The data itself.
+
+Observable
+Observable<ResultDto[]>
+
+
+Represents:
+
+A future source of data.
+
+
+or:
+
+"I will provide ResultDto[] later."
+
+Subscription
+Subscription
+
+
+Represents:
+
+Proof that we are listening
+to an Observable.
+
+
+It is not the data.
+
+Signal
+Signal<ResultDto[]>
+
+
+Represents:
+
+Current state
++
+Change notification.
+
+
+Whenever a Signal changes, Angular automatically becomes aware of the change.
+
+Proposed Pattern
+Service Owns State
+
+Current service:
+
+getResultDtos(): Observable<ResultDto[]>
+
+
+Proposed enhancement:
+
+results = signal<ResultDto[]>([]);
+
+
+within the service.
+
+The service then becomes the authoritative source of state.
+
+Loading Data
+
+Current:
+
+Component calls service
+↓
+Component stores list
+
+
+Proposed:
+
+loadResults()
+
+
+retrieves results and updates the Signal.
+
+Conceptually:
+
+Database
+↓
+API
+↓
+Signal Updated
+↓
+Angular Notified
+
+Adding Data
+
+Current approach:
+
+POST Result
+↓
+Refresh Page
+
+
+Proposed approach:
+
+POST Result
+↓
+Signal Updated
+↓
+UI Refreshes Automatically
+
+Important JavaScript/TypeScript Learning
+
+During the investigation, unfamiliar syntax was encountered:
+
+[
+    ...existing,
+    savedResult
+]
+
+
+This uses the JavaScript spread operator.
+
+Meaning:
+
+Take all existing items
+and place them into
+a new array.
+
+
+Example:
+
+const numbers = [1,2,3];
+
+const updated = [
+    ...numbers,
+    4
+];
+
+
+Result:
+
+[1,2,3,4]
+
+
+This is commonly used with Signals because creating a new collection makes state changes explicit and easy for Angular to detect.
+
+Recommended Implementation Strategy
+Do Not
+
+Attempt to migrate the entire application simultaneously.
+
+Avoid:
+
+Players
+Results
+Leaderboard
+Games
+
+
+all being converted at the same time.
+
+Do
+
+Use Results as a pilot implementation.
+
+Sequence:
+
+Result Service
+↓
+Add Signal
+↓
+Load Results into Signal
+↓
+Update Signal after Add Result
+↓
+Bind UI directly to Signal
+↓
+Verify automatic refresh
+
+
+If successful:
+
+Repeat for:
+Players
+Leaderboard
+Games
+
+Current Status
+
+Confirmed working:
+
+✅ Angular API calls
+
+✅ PostgreSQL persistence
+
+✅ Data retrieval
+
+✅ Leaderboard calculation
+
+✅ Results display
+
+✅ Player display
+
+Temporary workaround:
+
+✅ ChangeDetectorRef.detectChanges()
+
+Outstanding investigation:
+
+🔲 Signal-based refresh pattern
+
+Expected outcome:
+
+Remove manual refresh logic
+↓
+Remove detectChanges()
+↓
+Adopt Signal-driven UI updates
+↓
+Establish reusable Angular state pattern
+
+Key Observation
+
+The issue is not data retrieval.
+
+The issue is not persistence.
+
+The issue is not API integration.
+
+All major application plumbing has been proven.
+
+The remaining challenge is establishing a modern Angular state-management pattern so that:
+
+Data Changes
+↓
+State Changes
+↓
+UI Updates
+
+
+without manual intervention.
+
+This is now considered a refinement exercise rather than a technology risk. 🚀

@@ -1,0 +1,402 @@
+Certainly. Here's a Starliner-style summary suitable for capture as a project journal entry.
+
+Scrabble Scoreboard PoC
+Daily Summary
+22/10/2026
+Objective
+
+Introduce persistence into the existing Scrabble Scoreboard microservice architecture using EF Core and PostgreSQL, while preserving the existing working functionality:
+
+Angular frontend
+ASP.NET Core APIs
+RabbitMQ messaging
+Messaging Admin endpoints
+Swagger integration
+Deterministic leaderboard calculations
+
+Guiding principle:
+
+Technology Before Business
+
+Prove infrastructure and persistence before modifying business functionality.
+
+Architecture Decisions
+Separate Databases Per Microservice
+
+Decision:
+
+Use separate PostgreSQL databases rather than a shared database with schemas.
+
+Services:
+
+Players Service
+    ↓
+Players Database
+
+Results Service
+    ↓
+Results Database
+
+
+Reasoning:
+
+Stronger microservice ownership model
+Simpler migration management
+Cleaner demonstration architecture
+Less setup complexity
+Better aligns with AD Identity principles
+Flat Entity Model
+
+Decision:
+
+Keep entities simple and persistence-focused.
+
+Example:
+
+Player
+{
+    Id
+    DisplayName
+}
+
+
+Avoid:
+
+Navigation Properties
+Complex Relationships
+Shared Object Graphs
+
+
+Reasoning:
+
+Better microservice isolation
+Simpler persistence
+Easier future service separation
+Persistence Ownership
+
+Decision:
+
+Persistence remains inside each API project for the PoC.
+
+Structure:
+
+Player.Api
+|
++- Persistence
+     |
+     +- PlayersDbContext
+     +- Repositories
+
+Result.Api
+|
++- Persistence
+     |
+     +- ResultsDbContext
+     +- Repositories
+
+
+No shared persistence library at this stage.
+
+Infrastructure Work Completed
+EF Core
+
+Installed:
+
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.Tools
+Npgsql.EntityFrameworkCore.PostgreSQL
+
+
+for both APIs.
+
+Docker Infrastructure
+
+Added PostgreSQL containers:
+
+players-db
+results-db
+
+
+to existing Docker Compose configuration.
+
+Decision:
+
+No volumes for now.
+
+Reasoning:
+
+Current phase is infrastructure validation rather than data retention.
+
+Expected lifecycle:
+
+Container Starts
+↓
+Database Created
+↓
+Migration Runs
+↓
+Data Available
+
+Docker Compose Validation
+
+Resolved existing volume configuration issue:
+
+rabbitmq_data
+
+
+had been referenced but not defined.
+
+Corrected and committed.
+
+Repository Layer
+
+Introduced repository pattern to avoid putting EF code directly in controllers.
+
+Example:
+
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+EF Core
+    ↓
+Database
+
+
+Decision:
+
+Keep repositories under Persistence namespace.
+
+Reasoning:
+
+Repositories are persistence concerns rather than business concerns in this solution.
+
+EF Core Setup
+DbContext Registration
+
+Configured:
+
+AddDbContext<T>()
+
+
+with PostgreSQL provider.
+
+Resolved:
+
+PlayersDbContext only declares a parameterless constructor
+
+
+by adding:
+
+DbContextOptions<PlayersDbContext>
+
+
+constructor.
+
+Migration Discovery
+
+Encountered several classic EF Core setup issues:
+
+dotnet-ef missing
+
+
+Resolved by installing global EF tooling.
+
+Encountered:
+
+Unable to retrieve project metadata
+
+
+Investigated project structure and tooling configuration.
+
+Subsequent verbose diagnostics confirmed:
+
+PlayersDbContext discovered successfully
+
+
+Migration generation then succeeded.
+
+Lesson reinforced:
+
+EF Core setup remains one of the recurring "once a year" knowledge refresh exercises.
+
+Potential Dev Practica opportunity identified.
+
+Migrations
+
+Successfully created:
+
+Players API
+InitialCreate
+
+
+migration.
+
+Results API
+InitialCreate
+
+
+migration.
+
+Resolved model issue:
+
+LeaderboardEntry requires a primary key
+
+
+Decision:
+
+Remove LeaderboardEntry from EF persistence model.
+
+Reasoning:
+
+Leaderboard is a calculated projection, not persisted state.
+
+Pattern:
+
+Players
++
+Results
+↓
+Calculated
+↓
+Leaderboard
+
+Persistence Verification
+Players Service
+
+Successfully:
+
+Create Player
+↓
+Persist to PostgreSQL
+↓
+Retrieve from PostgreSQL
+
+
+Result:
+
+✅ End-to-end persistence proven.
+
+This validated:
+
+Docker
+EF Core
+DbContext
+Repository
+Service
+PostgreSQL
+
+
+working together.
+
+Emerging Patterns
+Technology Before Business
+
+Repeatedly reinforced throughout the day.
+
+Approach:
+
+Container Healthy
+↓
+Database Healthy
+↓
+EF Healthy
+↓
+Business Features
+
+Active Development
+
+Demonstrated through:
+
+One Change
+↓
+Verify
+↓
+Commit
+
+
+Examples:
+
+EF packages
+Docker fixes
+Database containers
+Migrations
+Repository layer
+
+each handled independently.
+
+Dev Practica Opportunity
+
+Strong candidate identified:
+
+EF Core Setup Assistant
+
+Purpose:
+
+Guide developers through the recurring EF Core setup process.
+
+Potential workflow:
+
+Check Tooling
+↓
+Check Context Discovery
+↓
+Check Build
+↓
+Generate Migration
+↓
+Apply Migration
+
+
+with:
+
+Quick Mode
+
+
+or
+
+Explain Why
+
+
+options.
+
+End of Day Status
+
+Infrastructure:
+
+✅ RabbitMQ
+ ✅ PostgreSQL Containers
+ ✅ EF Core
+ ✅ DbContexts
+ ✅ Repositories
+ ✅ Migrations
+ ✅ Player Persistence
+
+Business Features:
+
+✅ Players Page
+ ✅ Results Page
+ ✅ Leaderboard Calculation
+ ✅ Angular Integration
+ ✅ Swagger
+
+Remaining Work:
+
+Wire remaining DB queries
+↓
+Deploy application containers
+↓
+GitHub Copilot test generation
+↓
+General tidy-up and polish
+
+Key Observation
+
+The project has now reached the point where:
+
+Most major technology risks have been eliminated.
+
+Future effort is expected to focus on implementation, deployment and refinement rather than architectural discovery.

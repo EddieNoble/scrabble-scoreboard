@@ -1,0 +1,26 @@
+<div class="result-entry-form">
+  <div class="form-field">
+    <label class="form-label" for="result-player">Player</label>
+    <select class="form-select player-select" id="result-player" [(ngModel)]="selectedPlayerId">
+      <option value="" disabled>Choose Player</option>
+      @for (player of players(); track player.id) {
+        <option [value]="player.id">
+          {{ player.name }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label class="form-label" for="result-score">Score</label>
+    <input
+      class="form-control score-input"
+      id="result-score"
+      type="number"
+      [(ngModel)]="score">
+  </div>
+
+  <button class="btn btn-primary" type="button" (click)="save()">
+    Save
+  </button>
+</div>

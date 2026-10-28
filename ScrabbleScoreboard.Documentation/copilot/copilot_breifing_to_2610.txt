@@ -1,0 +1,560 @@
+Starliner Briefing
+Scrabble Scoreboard PoC
+Period: 22/10/2026 - 25/10/2026
+Executive Summary
+
+The Scrabble Scoreboard project transitioned from a technology proving exercise into a largely complete reference implementation of a modern microservice architecture.
+
+Major objectives achieved:
+
+✅ RabbitMQ messaging proven
+
+✅ PostgreSQL persistence introduced
+
+✅ EF Core migrations established
+
+✅ Seed data strategy implemented
+
+✅ Database-backed leaderboard implemented
+
+✅ Docker/containerisation concepts understood and evaluated
+
+✅ GitHub Copilot-assisted test generation evaluated successfully
+
+The remaining project work is primarily deployment, refinement and demonstration preparation rather than technology discovery.
+
+Technical Milestones
+Persistence Layer
+PostgreSQL Introduction
+
+Introduced:
+
+Players Database
+Results Database
+
+
+as independent PostgreSQL instances.
+
+Decision:
+
+Separate databases
+
+
+rather than:
+
+Shared database with schemas
+
+
+Reasoning:
+
+Better microservice ownership
+Simpler migrations
+Cleaner architecture story
+Easier demonstration
+EF Core
+
+Implemented:
+
+PlayersDbContext
+ResultsDbContext
+
+
+Features:
+
+PostgreSQL provider
+Code-first migrations
+Automatic migration capability
+Repository pattern
+Database-backed APIs
+Migrations
+
+Successfully established:
+
+InitialCreate
+
+
+migrations for:
+
+Players API
+Results API
+
+
+Discovered and resolved:
+
+DbContext constructor requirements
+EF CLI tooling setup
+Context discovery issues
+Model validation issues
+Seeding
+
+Implemented deterministic database seeding.
+
+Approach:
+
+Static Player List
+↓
+Player Seeder
+
+Static Player List
+↓
+Generated Results
+↓
+Result Seeder
+
+
+Benefits:
+
+Deterministic demonstrations
+Repeatable startup
+Consistent leaderboard output
+Independent microservice ownership
+Leaderboard Architecture
+
+Major evolution:
+
+Previous:
+
+Static Players
++
+Generated Games
+↓
+Leaderboard
+
+
+Current:
+
+Players Database
++
+Results Database
+↓
+Leaderboard Service
+↓
+Calculated Leaderboard
+
+
+Key decision:
+
+Leaderboard entries are projections,
+not persisted entities.
+
+
+Outcome:
+
+Leaderboard is now database-driven while remaining calculated.
+
+Architectural Patterns Reinforced
+Technology Before Business
+
+Repeatedly validated.
+
+Approach:
+
+Messaging Healthy
+↓
+Database Healthy
+↓
+APIs Healthy
+↓
+UI Healthy
+↓
+Business Features
+
+
+Led to fewer integration problems and faster overall delivery.
+
+Separate Technology From Business
+
+Became a recurring principle.
+
+Observed in:
+
+Messaging
+Infrastructure
+↓
+RabbitMQ
+Diagnostics
+Health Checks
+
+
+separated from:
+
+Player
+Result
+Leaderboard
+
+
+business features.
+
+Persistence
+
+Separated:
+
+EF Core
+PostgreSQL
+Repositories
+
+
+from:
+
+Players
+Results
+Rankings
+
+Deterministic Demo Environments
+
+Further validated.
+
+Pattern:
+
+Known Players
+↓
+Known Results
+↓
+Known Scores
+↓
+Known Leaderboard
+
+
+Result:
+
+Reliable demonstrations.
+
+Containerisation Discovery
+Initial Objective
+
+Understand:
+
+What containers are
+
+
+rather than merely:
+
+How to run Docker commands
+
+Major Learning
+
+Container:
+
+Deployment Unit
+
+
+not:
+
+HTTP Service
+
+
+A container may host:
+
+API
+Worker
+Consumer
+Scheduler
+Processor
+Event Harvest Investigation
+
+Review of DataTransformation architecture revealed existing support for:
+
+Alternative Service Implementations
+
+
+through:
+
+IServiceAdapter
+
+
+Implementations:
+
+InMemoryServiceAdapter
+
+
+Potential future implementations:
+
+RabbitMqServiceAdapter
+HttpServiceAdapter
+ContainerWorkerServiceAdapter
+AzureServiceBusAdapter
+
+Worker Containers
+
+Identified natural future candidates:
+
+Collection
+Mapping
+Standardisation
+Publishing
+
+
+Characteristics:
+
+Long-running
+Independently scalable
+Retryable
+Message-driven
+Administrative Applications
+
+Identified as poor candidates for event-driven processing.
+
+Examples:
+
+Monitoring
+Diagnostics
+Current Status
+Administration
+
+
+Reason:
+
+Users require answers immediately.
+
+Pattern:
+
+Query
+↓
+Current State
+
+
+rather than:
+
+Message
+↓
+Eventually Current State
+
+Event Driven Architecture Understanding
+
+Major conceptual breakthrough:
+
+Previous understanding:
+
+Containers
+↓
+HTTP
+
+
+Current understanding:
+
+Container
+↓
+Process
+
+Process
+↓
+Message
+
+Process
+↓
+Event
+
+
+Realisation:
+
+Workers do not necessarily expose HTTP endpoints.
+
+A message consumer may:
+
+Receive Command
+↓
+Process Work
+↓
+Publish Event
+
+
+without exposing any public API.
+
+GitHub Copilot Evaluation
+Objective
+
+Assess whether Copilot can participate in a professional development workflow.
+
+Test Exercise
+
+Provided:
+
+Existing controller
+Existing test suite
+
+Requested:
+
+Coverage analysis
+Gap identification
+Test generation
+Results
+
+Copilot correctly identified:
+
+Untested actions
+
+Missing validation tests
+
+Missing boundary tests
+
+Missing command verification
+
+Missing exception handling coverage
+
+
+Generated tests:
+
+✅ Passed first time
+
+✅ Followed existing project conventions
+
+✅ Extended existing coverage
+
+✅ Required minimal intervention
+
+Conclusion
+
+Recommended workflow:
+
+Analyse Code
+↓
+Analyse Existing Tests
+↓
+Identify Gaps
+↓
+Review Recommendations
+↓
+Generate Tests
+↓
+Human Review
+
+
+This aligns closely with:
+
+Active Development
+
+
+principles.
+
+Emerging Cascata Opportunities
+Workflow Framework
+
+Potential reusable framework identified.
+
+Generic pattern:
+
+Process Requested
+↓
+Process Started
+↓
+Task Requested
+↓
+Task Running
+↓
+Task Completed
+↓
+Process Completed
+
+
+Potential future capability:
+
+Cascata.Workflow
+
+Flow Tracker
+
+Potential monitoring product.
+
+Visualisation:
+
+Workflow
+↓
+Current Step
+↓
+Current State
+↓
+Elapsed Time
+
+
+Independent of implementation technology.
+
+Scenario Builder
+
+Further evidence supporting future investment.
+
+Progression identified:
+
+Static Data
+↓
+Generated Data
+↓
+Scenario Definitions
+↓
+Context-Aware Data Ecosystems
+
+
+Potential future applications:
+
+Testing
+Migration validation
+Demonstrations
+Onboarding
+Business simulations
+Dev Practica
+
+New content identified:
+
+Containerisation
+
+Topics:
+
+Containers vs Microservices
+Worker Containers
+When to Use Messaging
+When Not to Use Messaging
+Azure Hosting Options
+Event-Driven Architecture
+
+Decision guidance based on:
+
+Response time requirements
+Scalability requirements
+Retry requirements
+Operational visibility requirements
+Current Project Status
+Complete
+
+✅ Angular Front End
+
+✅ ASP.NET APIs
+
+✅ RabbitMQ
+
+✅ Messaging Admin Pattern
+
+✅ PostgreSQL
+
+✅ EF Core
+
+✅ Migrations
+
+✅ Data Seeding
+
+✅ Database-backed Leaderboard
+
+✅ Docker/Containerisation Investigation
+
+✅ GitHub Copilot Investigation
+
+Remaining
+Scrabble
+Docker deployment implementation
+Final tidy-up
+Demonstration preparation
+Cascata
+RabbitMQ workflow scaffold for DataTransformation
+Flow Tracker exploration
+Workflow framework extraction
+Container worker implementation
+Azure hosting evaluation
+Key Observation
+
+The most valuable outcome of the period was not a piece of code.
+
+It was reinforcement of the emerging principle:
+
+Code is cheap.
+
+Context is expensive.
+
+
+The technologies investigated (RabbitMQ, EF Core, PostgreSQL, Docker, Copilot) were valuable primarily because they helped identify reusable architectural patterns, workflow models and opportunities for future Cascata products.

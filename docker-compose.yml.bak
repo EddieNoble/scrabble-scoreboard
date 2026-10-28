@@ -1,0 +1,65 @@
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+
+    restart: unless-stopped
+
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  players-db:
+    image: postgres:16
+    container_name: scrabble-players-db
+    environment:
+      POSTGRES_DB: players
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+
+  results-db:
+    image: postgres:16
+    container_name: scrabble-results-db
+    environment:
+      POSTGRES_DB: results
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    
+  player-api:
+    container_name: player-api
+    build:
+      context: .
+      dockerfile: ScrabbleScoreboard.Player.Api/Dockerfile
+    environment:
+        ASPNETCORE_URLS: http://+:8080
+    ports:
+      - "7110:8080"
+
+  result-api:
+    container_name: result-api
+    build:
+      context: .
+      dockerfile: ScrabbleScoreboard.Result.Api/Dockerfile
+    environment:
+        ASPNETCORE_URLS: http://+:8080
+    ports:
+      - "7210:8080"
+
+  leaderboard-api:
+      container_name: leaderboard-api
+      build:
+        context: .
+        dockerfile: ScrabbleScoreboard.Leaderboard.Api/Dockerfile
+      environment:
+        ASPNETCORE_URLS: http://+:8080
+      ports:
+        - "7310:8080"    
+volumes:
+  rabbitmq_data:

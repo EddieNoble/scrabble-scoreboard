@@ -7,10 +7,30 @@ namespace ScrabbleScoreboard.Result.Api.Services.Interfaces
     /// </summary>
     public interface IResultService
     {
-        IEnumerable<Domain.Result> GetResults();
+        /// <summary>
+        /// Gets all results.
+        /// </summary>
+        /// <returns>A collection of Results.</returns>
+        Task<IEnumerable<Domain.Result>> GetResultsAsync();
 
-        Domain.Result? GetResult(Guid id);
+        /// <summary>
+        /// Gets a specified result.
+        /// </summary>
+        /// <param name="id">The unique ID of hte result.</param>
+        /// <returns>A Result.</returns>
+        Task<Domain.Result?> GetResultAsync(Guid id);
 
-        IEnumerable<LeaderboardEntry> GetLeaderboard();
+        /// <summary>
+        /// Creates a new Result.
+        /// </summary>
+        /// <param name="result">The Result to add.</param>
+        /// <returns>A Result.</returns>
+        Task<Domain.Result> CreateResultAsync(Domain.Result result);
+
+        /// <summary>
+        /// Gets Leaderboard Entries for all players.
+        /// </summary>
+        /// <returns>A list of Leaderboard Entries.</returns>
+        Task<IEnumerable<LeaderboardEntry>> GetLeaderboardAsync();
     }
 }

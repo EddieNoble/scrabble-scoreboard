@@ -1,0 +1,127 @@
+.players-page {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.75rem 1rem 2rem;
+}
+
+.players-panel,
+.player-entry {
+  padding: 1.5rem;
+  border: 1px solid #e6e6e6;
+  border-radius: 0.7rem;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
+}
+
+.players-panel-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.players-heading {
+  margin: 0 0 0.75rem;
+  color: #171717;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.players-count {
+  margin: 0;
+  color: #555;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.players-table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: left;
+}
+
+.players-table th {
+  height: 3.75rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 0;
+  background: #e2e2e2;
+  color: #171717;
+  font-weight: 600;
+}
+
+.players-table td {
+  height: 3.5rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid #e8e8e8;
+  color: #222;
+}
+
+.players-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.players-table tbody tr:hover {
+  background: #f8f8f8;
+}
+
+.players-table th:first-child,
+.players-table td:first-child {
+  width: 30%;
+}
+
+.players-table th:nth-child(2),
+.players-table td:nth-child(2) {
+  width: 50%;
+}
+
+.players-table th:last-child,
+.players-table td:last-child {
+  width: 20%;
+}
+
+.player-entry-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.form-field {
+  display: grid;
+  min-width: 12rem;
+  width: min(100%, 24rem);
+}
+
+.player-entry-form button {
+  align-self: flex-start;
+}
+
+@media (max-width: 40rem) {
+  .players-page {
+    gap: 1rem;
+    padding: 1rem 0.75rem 1.5rem;
+  }
+
+  .players-panel,
+  .player-entry {
+    padding: 1rem;
+  }
+
+  .players-panel-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-field {
+    width: 100%;
+  }
+}

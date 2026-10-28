@@ -1,18 +1,32 @@
-﻿using ScrabbleScoreboard.Player.Api.DemoData;
+﻿using ScrabbleScoreboard.Player.Api.Persistence.Repositories.Interfaces;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
 
 namespace ScrabbleScoreboard.Player.Api.Services
 {
     public class PlayersService : IPlayerService
     {
-        public IEnumerable<Domain.Player> GetPlayers()
+        private readonly IPlayerRepository _playerRepo;
+
+        public PlayersService(IPlayerRepository playerRepo)
         {
-            return DemoPlayers.Players;
+            _playerRepo = playerRepo;
         }
 
-        public Domain.Player? GetPlayer(Guid id)
+        public async Task<IEnumerable<Domain.Player>> GetPlayersAsync()
         {
-            return DemoPlayers.Players.FirstOrDefault(x => x.Id == id);
+            return await _playerRepo.GetAllAsync();
+        }
+
+        public async Task<Domain.Player?> GetPlayerAsync(Guid id)
+        {
+            var allPlayers = await _playerRepo.GetAllAsync(); 
+
+            return allPlayers.SingleOrDefault(p => p.Id == id);
+        }
+
+        public async Task<Domain.Player> AddPlayerAsync(Domain.Player player)
+        {
+            return await _playerRepo.AddAsync(player);
         }
     }
 }

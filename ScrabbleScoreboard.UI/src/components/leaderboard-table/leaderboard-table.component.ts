@@ -1,7 +1,6 @@
-﻿import {Component, inject, OnInit } from '@angular/core';
+﻿import {Component, inject } from '@angular/core';
 import { LeaderboardEntry } from '../../app/core/models/leaderboard-entry';
 import { LeaderboardService } from '../../app/core/services/leaderboard.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-leaderboard-table',
@@ -10,32 +9,14 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './leaderboard-table.component.scss'
 })
 export class LeaderboardTableComponent {
-
+ private readonly leaderboardService = inject(LeaderboardService);
   displayName = 'Leaderboard';
 
-  leaderboardEntries: LeaderboardEntry[] = [];
-
-  constructor(
-    private readonly leaderboardService: LeaderboardService,
-    private readonly changeDetector: ChangeDetectorRef
-  ) { }
+  leaderboardEntries = this.leaderboardService.leaderboardEntries;
 
   ngOnInit(): void {
     console.log('ngOnInit running');
-    this.leaderboardService
-    .getLeaderboard()
-      .subscribe(entries => {
-
-        console.log(entries);
-        this.leaderboardEntries = entries;
-        this.changeDetector.detectChanges();
-
-        console.log('Assigned length:', this.leaderboardEntries.length);
-
-        setTimeout(() => {
-          console.log('One second later:', this.leaderboardEntries.length);
-        });
-
-      });
-    }
+    this.leaderboardService.loadLeaderboardEntries();
+  }
 }
+

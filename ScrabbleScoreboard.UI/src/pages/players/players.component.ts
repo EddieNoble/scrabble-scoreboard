@@ -1,9 +1,9 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, inject, OnInit, signal } from '@angular/core';
 import {RouterLink} from '@angular/router';
 import { Player } from '../../app/core/models/player';
 import { PlayerService } from '../../app/core/services/player.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CreatePlayerRequest } from '../../app/core/models/create-player-request';
 
 @Component({
   selector: 'app-players',
@@ -17,55 +17,29 @@ import { FormsModule } from '@angular/forms';
 })
 export class PlayersComponent implements OnInit {
   displayName = 'Players Home';
-  
+    private readonly playerService = inject(PlayerService);
+
+
   public newPlayerName = '';
   public newPlayerEmail = '';
 
-  players: Player[] = [];  
+  players = this.playerService.players;
   selectedPlayer?: Player;
-  
-  constructor(
-    private readonly playerService: PlayerService,
-    private readonly changeDetector: ChangeDetectorRef
-  ) { }
 
   ngOnInit(): void {
     console.log('ngOnInit running');
-    this.playerService
-      .getPlayers()
-      .subscribe(players => {
-        console.log(players);
-        this.players = players;
-        this.changeDetector.detectChanges();
-      });
-    }
+    this.playerService.loadPlayers();
+  }
 
-    public addPlayer(): void {
-    console.log({
+public addPlayer(): void {
+
+    const player: CreatePlayerRequest = {
         name: this.newPlayerName,
         emailAddress: this.newPlayerEmail
-    });
+    };
 
-
-    // public addPlayer(): void {
-
-    //     const player: Player = {
-    //         id: crypto.randomUUID(),
-    //         name: this.newPlayerName,
-    //         emailAddress: this.newPlayerEmail
-    //     };
-
-    //     this.playerService
-    //         .addPlayer(player)
-    //         .subscribe(savedPlayer => {
-
-    //             this.players.push(savedPlayer);
-
-    //             this.newPlayerName = '';
-    //             this.newPlayerEmail = '';
-
-    //         });
-    //}
-
+    this.playerService.addPlayer(player);
+    this.newPlayerName = '';
+    this.newPlayerEmail = '';
   }
 }

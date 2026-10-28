@@ -1,5 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using ScrabbleScoreboard.Result.Api.Models.Messaging;
 using ScrabbleScoreboard.Result.Api.Models.Messaging.Interfaces;
+using ScrabbleScoreboard.Result.Api.Persistence;
+using ScrabbleScoreboard.Result.Api.Persistence.Repositories;
+using ScrabbleScoreboard.Result.Api.Persistence.Repositories.Interfaces;
 using ScrabbleScoreboard.Result.Api.Services;
 using ScrabbleScoreboard.Result.Api.Services.Interfaces;
 
@@ -13,6 +17,12 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IResultService, ResultService>();
 builder.Services.AddScoped<IMessagingAdminService, RabbitMessagingAdminService>();
+builder.Services.AddScoped<IResultRepository, ResultRepository>();
+
+builder.Services.AddDbContext<ResultsDbContext>(
+    options =>
+        options.UseNpgsql(
+            builder.Configuration.GetConnectionString("ResultsDb")));
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -51,6 +61,16 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider
+        .GetRequiredService<ResultsDbContext>();
+
+    await db.Database.MigrateAsync();
+
+    await ResultSeeder.SeedAsync(db);
 }
 
 app.Run();

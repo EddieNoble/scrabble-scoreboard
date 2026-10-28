@@ -1,29 +1,44 @@
-﻿<div class="page-container">
+<main class="home-layout">
+  <section class="info-grid" aria-label="Scrabble information">
+    <article class="info-card about-card">
+      <h2>Do you love Scrabble?</h2>
+      <p>
+        This is just some placeholder text about Scrabble. Lorem ipsum dolor
+        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua.
+      </p>
+    </article>
 
-  <div class="card-grid">
+    <article class="info-card contact-card">
+      <svg class="info-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M8.2 3.5h5.1l2.2 6.1-3.1 2.4a20.2 20.2 0 0 0 7.6 7.6l2.4-3.1 6.1 2.2v5.1a3 3 0 0 1-3.2 3A22.4 22.4 0 0 1 5.2 6.7a3 3 0 0 1 3-3.2Z" />
+        <circle cx="23.5" cy="8.5" r="5.5" />
+        <path d="M21.3 7.8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm4.4 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm-5.2 2.1a3.7 3.7 0 0 0 6 0" />
+      </svg>
+      <div>
+        <h2>Call us</h2>
+        <p>We are available by phone 9am - 5pm</p>
+        <a href="tel:01151234567">0115 123 4567</a>
+      </div>
+    </article>
 
-    <app-info-card
-      actionText="Read More"
-      bodyText="Competitive tournaments and leagues."
-      title="Do you love Scrabble?">
-    </app-info-card>
+    <article class="info-card contact-card">
+      <svg class="info-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="m3.5 14.5 12.5-10 5.2 4.2M7 12v13h18V15M12 25v-8h8v8M2.5 27.5h27" />
+        <circle cx="24" cy="8" r="4.5" />
+        <path d="M24 5.8v2.5l1.5 1" />
+      </svg>
+      <div>
+        <h2>Find us</h2>
+        <p>123 fake street, Someplace, Nottingham, NG1 2TR</p>
+        <a href="https://maps.google.com/?q=123+Fake+Street+Nottingham+NG1+2TR">Open in maps</a>
+      </div>
+    </article>
+  </section>
 
-    <app-info-card
-      actionText="0115 123 4567"
-      bodyText="We are available by phone 9am - 5pm"
-      title="Call Us">
-    </app-info-card>
-
-    <app-info-card actionText="Open in maps"
-                   bodyText="123 fake street, Someplace, Nottingham, NG1 2TR"
-                   title="Find Us">
-    </app-info-card>
-
-  </div>
-
-  <div>
+  <nav class="home-navigation" aria-label="Main navigation">
     <app-navbar></app-navbar>
-  </div>
+  </nav>
 
-  <app-leaderboard-table displayName="This is our leader board table"/>
-</div>
+  <app-leaderboard-active></app-leaderboard-active>
+</main>
