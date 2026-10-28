@@ -303,6 +303,132 @@
             Assert.AreEqual(1, repository.AddCallCount);
         }
 
+        [TestMethod]
+        public async Task GetResults_Returns_All_Repository_Results_In_Order()
+        {
+            // Arrange
+
+            var results = new List<ScrabbleScoreboard.Domain.Result>
+            {
+                new() { Id = Guid.NewGuid(), Score = 10 },
+                new() { Id = Guid.NewGuid(), Score = 20 },
+                new() { Id = Guid.NewGuid(), Score = 30 }
+            };
+            var repository = new FakeResultRepository { Results = results };
+            var service = new ScrabbleScoreboard.Result.Api.Services.ResultService(repository);
+
+            // Act
+
+            var returnedResults = (await service.GetResultsAsync()).ToList();
+
+            // Assert
+
+            CollectionAssert.AreEqual(results, returnedResults);
+            Assert.AreEqual(1, repository.GetAllCallCount);
+        }
+
+        [TestMethod]
+        public async Task GetResult_Returns_Matching_Result_From_Multiple_Repository_Results()
+        {
+            // Arrange
+
+            var result = new ScrabbleScoreboard.Domain.Result { Id = Guid.NewGuid(), Score = 20 };
+            var repository = new FakeResultRepository
+            {
+                Results = new List<ScrabbleScoreboard.Domain.Result>
+                {
+                    new() { Id = Guid.NewGuid(), Score = 10 },
+                    result,
+                    new() { Id = Guid.NewGuid(), Score = 30 }
+                }
+            };
+            var service = new ScrabbleScoreboard.Result.Api.Services.ResultService(repository);
+
+            // Act
+
+            var returnedResult = await service.GetResultAsync(result.Id);
+
+            // Assert
+
+            Assert.AreSame(result, returnedResult);
+            Assert.AreEqual(1, repository.GetAllCallCount);
+        }
+
+        [TestMethod]
+        public async Task GetResult_Returns_Null_When_Id_Is_Not_Found_Among_Repository_Results()
+        {
+            // Arrange
+
+            var repository = new FakeResultRepository
+            {
+                Results = new List<ScrabbleScoreboard.Domain.Result>
+                {
+                    new() { Id = Guid.NewGuid(), Score = 10 },
+                    new() { Id = Guid.NewGuid(), Score = 20 }
+                }
+            };
+            var service = new ScrabbleScoreboard.Result.Api.Services.ResultService(repository);
+
+            // Act
+
+            var returnedResult = await service.GetResultAsync(Guid.NewGuid());
+
+            // Assert
+
+            Assert.IsNull(returnedResult);
+            Assert.AreEqual(1, repository.GetAllCallCount);
+        }
+
+        [TestMethod]
+        public async Task GetLeaderboard_Returns_Expected_Scores_For_Each_Demo_Player()
+        {
+            // Arrange
+
+            var expectedScores = new[] { 1450, 1840, 2100, 2270, 2390, 2500 };
+            var repository = new FakeResultRepository();
+            var service = new ScrabbleScoreboard.Result.Api.Services.ResultService(repository);
+
+            // Act
+
+            var entries = (await service.GetLeaderboardAsync()).ToList();
+
+            // Assert
+
+            Assert.AreEqual(ScrabbleScoreboard.Result.Api.DemoData.DemoPlayers.Players.Count, entries.Count);
+            foreach (var player in ScrabbleScoreboard.Result.Api.DemoData.DemoPlayers.Players)
+            {
+                var entry = entries.Single(candidate => candidate.PlayerId == player.Id);
+                var playerIndex = ScrabbleScoreboard.Result.Api.DemoData.DemoPlayers.Players.IndexOf(player);
+
+                Assert.AreEqual(player.Name, entry.PlayerName);
+                Assert.AreEqual(expectedScores[playerIndex], entry.TotalScore);
+                Assert.AreEqual(ScrabbleScoreboard.Result.Api.DemoData.DemoPlayers.Players.Count - 1, entry.GamesPlayed);
+            }
+
+            Assert.AreEqual(0, repository.GetAllCallCount);
+        }
+
+        [TestMethod]
+        public async Task CreateResult_Passes_Maximum_Score_To_Repository()
+        {
+            // Arrange
+
+            var result = new ScrabbleScoreboard.Domain.Result { Score = int.MaxValue };
+            var repository = new FakeResultRepository();
+            var service = new ScrabbleScoreboard.Result.Api.Services.ResultService(repository);
+
+            // Act
+
+            var returnedResult = await service.CreateResultAsync(result);
+
+            // Assert
+
+            Assert.AreSame(result, returnedResult);
+            Assert.AreSame(result, repository.AddedResult);
+            Assert.AreEqual(int.MaxValue, repository.AddedResult!.Score);
+            Assert.AreEqual(1, repository.AddCallCount);
+        }
+
         private sealed class FakeResultRepository : ScrabbleScoreboard.Result.Api.Persistence.Repositories.Interfaces.IResultRepository
         {
             public List<ScrabbleScoreboard.Domain.Result> Results { get; set; } = new();
