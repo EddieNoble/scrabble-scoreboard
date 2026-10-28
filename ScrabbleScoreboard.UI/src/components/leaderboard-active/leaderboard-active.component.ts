@@ -24,7 +24,7 @@ export class LeaderboardActiveComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatSort) private readonly sort!: MatSort;
 
-  readonly displayedColumns = ['position', 'playerName', 'totalScore'];
+  readonly displayedColumns = ['position', 'playerName', 'gamesPlayed', 'totalScore'];
   readonly dataSource = new MatTableDataSource<LeaderboardEntry>([]);
 
   constructor() {
@@ -57,8 +57,14 @@ export class LeaderboardActiveComponent implements AfterViewInit, OnInit {
     });
   }
 
-  isPodiumPosition(position: number): boolean {
-    return position >= 1 && position <= 3;
+  podiumImage(position: number): string | null {
+    const images: Record<number, string> = {
+      1: '/images/trophy-gold.svg',
+      2: '/images/trophy-silver.svg',
+      3: '/images/trophy-bronze.svg'
+    };
+
+    return images[position] ?? null;
   }
 
   placeLabel(position: number): string {

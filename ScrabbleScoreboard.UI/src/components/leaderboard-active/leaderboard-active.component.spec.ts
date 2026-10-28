@@ -34,7 +34,11 @@ describe('LeaderboardActiveComponent', () => {
 
   it('loads leaderboard entries and renders the table rows from the signal', () => {
     expect(loadLeaderboardEntries).toHaveBeenCalled();
-    expect(rowTexts()).toEqual(['1 Alice 120', '2 Bob 95', '3 Cara 110']);
+    expect(rowTexts()).toEqual([
+      '1. Alice 4 120',
+      '2. Bob 3 95',
+      '3. Cara 2 110'
+    ]);
   });
 
   it('updates rendered rows when the leaderboard signal changes', () => {
@@ -43,15 +47,15 @@ describe('LeaderboardActiveComponent', () => {
     ]);
     fixture.detectChanges();
 
-    expect(rowTexts()).toEqual(['1 Dev 42']);
+    expect(rowTexts()).toEqual(['1. Dev 1 42']);
   });
 
   it('sorts by position in ascending and descending order', () => {
     clickSortHeader('Position');
-    expect(columnTexts(1)).toEqual(['1', '2', '3']);
+    expect(columnTexts(1)).toEqual(['1.', '2.', '3.']);
 
     clickSortHeader('Position');
-    expect(columnTexts(1)).toEqual(['3', '2', '1']);
+    expect(columnTexts(1)).toEqual(['3.', '2.', '1.']);
   });
 
   it('sorts player names in ascending and descending order', () => {
@@ -63,11 +67,19 @@ describe('LeaderboardActiveComponent', () => {
   });
 
   it('sorts scores numerically in ascending and descending order', () => {
-    clickSortHeader('Score');
-    expect(columnTexts(3)).toEqual(['95', '110', '120']);
+    clickSortHeader('Total Score');
+    expect(columnTexts(4)).toEqual(['95', '110', '120']);
 
-    clickSortHeader('Score');
-    expect(columnTexts(3)).toEqual(['120', '110', '95']);
+    clickSortHeader('Total Score');
+    expect(columnTexts(4)).toEqual(['120', '110', '95']);
+  });
+
+  it('sorts games played in ascending and descending order', () => {
+    clickSortHeader('Games Played');
+    expect(columnTexts(3)).toEqual(['2', '3', '4']);
+
+    clickSortHeader('Games Played');
+    expect(columnTexts(3)).toEqual(['4', '3', '2']);
   });
 
   it('filters player names case-insensitively and ignores surrounding whitespace', () => {
@@ -80,7 +92,7 @@ describe('LeaderboardActiveComponent', () => {
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    expect(rowTexts()).toEqual(['1 Alice 120']);
+    expect(rowTexts()).toEqual(['1. Alice 4 120']);
   });
 
   it('renders the player data as JSON on each row', () => {

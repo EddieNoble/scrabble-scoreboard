@@ -1,5 +1,4 @@
-﻿import { Component } from '@angular/core';
-import {InfoCardComponent} from '../../components/info-card/info-card.component';
+import { Component } from '@angular/core';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
 import { LeaderboardActiveComponent } from '../../components/leaderboard-active/leaderboard-active.component';
 
@@ -7,7 +6,6 @@ import { LeaderboardActiveComponent } from '../../components/leaderboard-active/
   selector: 'app-home',
   standalone: true,
   imports: [
-    InfoCardComponent,
     NavbarComponent,
     LeaderboardActiveComponent
 ],

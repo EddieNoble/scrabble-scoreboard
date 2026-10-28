@@ -81,7 +81,13 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "browsers": "ChromeHeadless",
-            "watch": false
+            "watch": false,
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ]
           }
         }
       }

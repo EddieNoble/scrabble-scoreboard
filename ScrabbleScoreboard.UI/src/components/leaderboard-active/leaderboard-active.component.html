@@ -1,27 +1,29 @@
 <section class="leaderboard-active">
-  <h3 class="leaderboard-heading">Active Leaderboard</h3>
+  <div class="leaderboard-header">
+    <h3 class="leaderboard-heading">Results</h3>
 
-  <mat-form-field appearance="outline" class="player-filter">
-    <mat-label>Search players</mat-label>
-    <input
-      matInput
-      type="search"
-      (input)="applyFilter($event)"
-      placeholder="Enter a player name">
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="player-filter">
+      <mat-label>Search players</mat-label>
+      <input
+        matInput
+        type="search"
+        (input)="applyFilter($event)"
+        placeholder="Enter a player name">
+    </mat-form-field>
+  </div>
 
   <div class="table-scroll">
     <table class="leaderboard-table" mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">Position</th>
         <td mat-cell *matCellDef="let entry">
-          @if (isPodiumPosition(entry.position)) {
+          @if (podiumImage(entry.position); as image) {
             <img
               class="podium-symbol"
-              src="/favicon.ico"
+              [src]="image"
               [alt]="placeLabel(entry.position)">
           }
-          {{ entry.position }}
+          <span class="position-label">{{ entry.position }}.</span>
         </td>
       </ng-container>
 
@@ -30,8 +32,13 @@
         <td mat-cell *matCellDef="let entry">{{ entry.playerName }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="gamesPlayed">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">Games Played</th>
+        <td mat-cell *matCellDef="let entry">{{ entry.gamesPlayed }}</td>
+      </ng-container>
+
       <ng-container matColumnDef="totalScore">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">Score</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">Total Score</th>
         <td mat-cell *matCellDef="let entry">{{ entry.totalScore }}</td>
       </ng-container>
 
