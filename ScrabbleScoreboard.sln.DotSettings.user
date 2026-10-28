@@ -8,5 +8,9 @@
   &lt;Or&gt;&#xD;
     &lt;Project Location="C:\Users\Edward.Noble\RiderProjects\ScrabbleScoreboard\ScrabbleScoreboard.Domain.Tests" Presentation="&amp;lt;ScrabbleScoreboard.Domain.Tests&amp;gt;" /&gt;&#xD;
     &lt;Project Location="C:\Users\Edward.Noble\RiderProjects\ScrabbleScoreboard\ScrabbleScoreboard.Player.Api.Tests" Presentation="&amp;lt;ScrabbleScoreboard.Player.Api.Tests&amp;gt;" /&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;MSTest::8A909589-8979-4BE2-B412-478931AB6EE4::net10.0::ScrabbleScoreboard.Leaderboard.Api.Tests.Controllers.LeaderboardControllerTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;MSTest::8A909589-8979-4BE2-B412-478931AB6EE4::net10.0::ScrabbleScoreboard.Leaderboard.Api.Tests.Services.LeaderboardServiceTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
