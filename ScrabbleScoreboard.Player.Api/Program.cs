@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using ScrabbleScoreboard.Player.Api.Infrastructure.Publishers;
+using ScrabbleScoreboard.Player.Api.Infrastructure.Publishers.Interfaces;
 using ScrabbleScoreboard.Player.Api.Persistence;
 using ScrabbleScoreboard.Player.Api.Persistence.Repositories;
 using ScrabbleScoreboard.Player.Api.Persistence.Repositories.Interfaces;
@@ -16,6 +18,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IPlayerService, PlayersService>();
 builder.Services.AddSingleton<LiteDbContext>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IPlayerCreatedPublisher, PlayerCreatedPublisher>();
 
 builder.Services.AddDbContext<PlayersDbContext>(
     options =>

@@ -1,0 +1,449 @@
+ScrabbleScoreboard Development Briefing
+28 October 2026 - RabbitMQ Architecture Planning
+Context
+
+Today's session focused on establishing the architectural patterns for a RabbitMQ-driven CRUD experiment within the ScrabbleScoreboard solution.
+
+The objective remains unchanged:
+
+Learn queue-based architecture by routing persistence through RabbitMQ rather than writing directly to PostgreSQL.
+
+This is explicitly a learning exercise, not an attempt to optimise or productionise the application.
+
+Progress Made
+Event Catalogue Agreed
+
+The branch will begin with two events only.
+
+PlayerCreatedEvent
+
+Publisher:
+
+Player API
+
+
+Consumer:
+
+Player API
+
+
+Payload:
+
+Name
+EmailAddress
+
+
+Persistence Target:
+
+Players Database
+
+ResultSubmittedEvent
+
+Publisher:
+
+Result API
+
+
+Consumer:
+
+Result API
+
+
+Payload:
+
+PlayerId
+Score
+
+
+Persistence Target:
+
+Results Database
+
+Shared Contracts
+
+Decision made to place events into the existing Domain project.
+
+Structure:
+
+ScrabbleScoreboard.Domain
+│
+└── Events
+    ├── PlayerCreatedEvent.cs
+    └── ResultSubmittedEvent.cs
+
+
+Events are represented as strongly typed classes.
+
+For example:
+
+PlayerCreatedEvent
+
+
+is a C# object, not a JSON string.
+
+Messages will be serialized immediately before publishing and deserialized immediately after consuming.
+
+Infrastructure Layout
+
+Both APIs now contain dedicated infrastructure areas.
+
+Structure:
+
+Player.Api
+│
+└── Infrastructure
+    ├── Publishers
+    └── Consumers
+
+Result.Api
+│
+└── Infrastructure
+    ├── Publishers
+    └── Consumers
+
+
+The Leaderboard API has deliberately been excluded from this phase.
+
+Rationale:
+
+Leaderboard is already an aggregation layer and would introduce additional event-driven complexity before the basic pattern has been proven.
+
+Current focus is:
+
+Publish
+↓
+Queue
+↓
+Consume
+↓
+Persist
+
+
+Nothing more.
+
+Architectural Pattern Agreed
+Publisher Responsibilities
+
+Responsible for:
+
+Event Object
+↓
+Serialize
+↓
+RabbitMQ
+
+
+Not responsible for:
+
+Business Logic
+Validation
+Persistence
+
+Consumer Responsibilities
+
+Responsible for:
+
+RabbitMQ
+↓
+Deserialize
+↓
+Call Service
+
+
+Not responsible for:
+
+Repository Access
+Business Rules
+
+
+Consumers should invoke existing service methods.
+
+Service Responsibilities
+
+Services remain transport-agnostic.
+
+Example:
+
+PlayerService
+ResultService
+
+
+Services know about:
+
+Entities
+Validation
+Repositories
+
+
+Services do not know about:
+
+RabbitMQ
+Queues
+Events
+Publishers
+Consumers
+
+
+This was identified as a key architectural learning point.
+
+Queue Names
+
+Decision made to avoid magic strings.
+
+Create:
+
+Domain
+│
+└── Messaging
+    └── QueueNames.cs
+
+
+Containing constants such as:
+
+PlayerCreated
+ResultSubmitted
+
+
+Simple static-class approach chosen over enums.
+
+Rationale:
+
+Queue names are string infrastructure identifiers rather than finite business-state values.
+
+RabbitMQ Implementation Approach
+
+Publisher implementation will be lifted from the existing RabbitMQ PoC.
+
+Expected flow:
+
+Create Event
+↓
+Serialize
+↓
+Create Connection
+↓
+Create Channel
+↓
+Declare Queue
+↓
+Publish
+
+
+Pattern intentionally retained from the PoC to maximise understanding.
+
+No abstraction layers yet.
+
+No messaging framework yet.
+
+No generic publishers yet.
+
+Important Realisation
+
+The original PoC manually built JSON:
+
+{
+    "eventType": "...",
+    "playerId": "..."
+}
+
+
+This is no longer required.
+
+Publishers already receive strongly typed events.
+
+Example:
+
+PublishAsync(
+    PlayerCreatedEvent playerCreated
+)
+
+
+Therefore publisher logic becomes simply:
+
+PlayerCreatedEvent
+↓
+JsonSerializer.Serialize()
+↓
+RabbitMQ
+
+
+and on the consumer side:
+
+RabbitMQ
+↓
+JsonSerializer.Deserialize<PlayerCreatedEvent>()
+↓
+Service
+
+
+This is cleaner and more strongly typed than the original PoC approach.
+
+Future Architecture Thoughts
+
+Discussion explored possible longer-term evolution.
+
+Potential direction:
+
+ScrabbleScoreboard.Messaging
+
+
+NuGet package containing:
+
+Publishers
+Consumers
+Connection Management
+Configuration
+
+
+while business contracts remain separate:
+
+ScrabbleScoreboard.Domain
+└── Events
+
+
+This was identified as a potentially useful middle ground between:
+
+Everything Local
+
+
+and
+
+Dedicated Messaging Service
+
+
+No implementation planned at this stage.
+
+Current branch remains deliberately simple.
+
+Key Learning Observation
+
+An important theme emerged during discussion.
+
+The value being developed is no longer primarily writing code.
+
+The value is:
+
+Understanding architectural boundaries well enough to recognise when generated code is wrong.
+
+Example:
+
+Bad:
+
+PlayerService
+    ↓
+RabbitMQ Publisher
+
+
+Good:
+
+Publisher
+↓
+Consumer
+↓
+PlayerService
+↓
+Repository
+
+
+This understanding is increasingly important when using AI-assisted development.
+
+Route Forward
+
+Next implementation steps:
+
+1. Create Event Classes
+PlayerCreatedEvent
+ResultSubmittedEvent
+
+
+in Domain.
+
+2. Create QueueNames
+
+Shared constants in Domain.
+
+3. Create Publisher Interfaces
+
+Within each API.
+
+4. Implement RabbitMQ Publishers
+
+Reusing patterns from the PoC.
+
+5. Update Controllers
+
+Current:
+
+Controller
+↓
+Service
+↓
+Repository
+
+
+Temporary Experiment:
+
+Controller
+↓
+Publisher
+↓
+RabbitMQ
+
+6. Build Consumers
+RabbitMQ
+↓
+Consumer
+↓
+Service
+↓
+Repository
+
+7. Verify End-to-End Flow
+
+Success condition:
+
+POST
+↓
+Publish
+↓
+RabbitMQ
+↓
+Consumer
+↓
+Database
+
+
+with records appearing in PostgreSQL via the consumer rather than directly from the API.
+
+Reflection
+
+Today's work was largely architectural rather than implementation-focused. While this can feel slower than generating code immediately, it has resulted in a very clear separation of responsibilities before development begins.
+
+The branch now has a coherent model:
+
+Events
+↓
+Publishers
+↓
+Queues
+↓
+Consumers
+↓
+Services
+↓
+Repositories
+
+
+The remaining work is largely implementation against an agreed design.
+
+As of tonight, the project outcomes are effectively all represented within the solution:
+
+✅ Angular Signals
+ ✅ API Development
+ ✅ PostgreSQL Integration
+ ✅ Docker & Compose
+ ✅ Multi-Service Architecture
+ ✅ RabbitMQ Proof of Concept
+ ⬜ Queue-Driven Persistence Implementation
+
+Completing the queue-driven persistence flow should close the final major learning objective of the ScrabbleScoreboard project. 🚀
