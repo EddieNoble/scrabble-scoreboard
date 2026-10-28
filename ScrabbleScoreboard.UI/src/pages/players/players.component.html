@@ -1,7 +1,7 @@
 ﻿<div>
   <h2>The Players</h2>
   <p>
-    Total Players: {{ players.length }}
+    Total Players: {{ players().length }}
   </p>
   <table>
     <tr>
@@ -9,7 +9,7 @@
       <th>Email</th>
       <th></th>
     </tr>
-  @for (player of players; track player.id) {
+  @for (player of players(); track player.id) {
     <tr>
       <td>{{ player.name }}</td>
       <td>{{ player.emailAddress }}</td>

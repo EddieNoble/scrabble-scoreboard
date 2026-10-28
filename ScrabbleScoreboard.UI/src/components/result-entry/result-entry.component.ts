@@ -36,9 +36,7 @@ export class ResultEntryComponent {
 
   save(): void {
 
-      const player = this.players.find(p => p.id === this.selectedPlayerId);
-
-    console.log('Found this player:', player);
+    const player = this.players.find(p => p.id === this.selectedPlayerId);
 
     if (!player) {
       return;
@@ -50,10 +48,7 @@ export class ResultEntryComponent {
       score: this.score
     };
 
-    console.log('Adding result:', result);
-
     this.resultService.addResult(result)
 
-    console.log('Result added');
   }
 }

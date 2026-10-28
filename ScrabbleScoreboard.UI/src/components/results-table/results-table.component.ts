@@ -17,7 +17,7 @@ export class ResultsTableComponent implements OnInit  {
 
   displayName = 'Results';
 
-  players = signal<Player[]>([]);
+  players = this.playerService.players;
   results = this.resultService.results;
   resultDtos = computed<ResultDto[]>(() =>
     this.results().map((result: Result) => ({
@@ -31,8 +31,6 @@ export class ResultsTableComponent implements OnInit  {
 
   ngOnInit(): void {
     this.resultService.loadResults();
-    this.playerService.getPlayers().subscribe(players => {
-      this.players.set(players);
-    });
+    this.playerService.loadPlayers();
   }
 }

@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, inject, OnInit, signal } from '@angular/core';
 import {RouterLink} from '@angular/router';
 import { Player } from '../../app/core/models/player';
 import { PlayerService } from '../../app/core/services/player.service';
@@ -18,28 +18,19 @@ import { CreatePlayerRequest } from '../../app/core/models/create-player-request
 })
 export class PlayersComponent implements OnInit {
   displayName = 'Players Home';
-  
+    private readonly playerService = inject(PlayerService);
+
+
   public newPlayerName = '';
   public newPlayerEmail = '';
 
-  players: Player[] = [];  
+  players = this.playerService.players;
   selectedPlayer?: Player;
-  
-  constructor(
-    private readonly playerService: PlayerService,
-    private readonly changeDetector: ChangeDetectorRef
-  ) { }
 
   ngOnInit(): void {
     console.log('ngOnInit running');
-    this.playerService
-      .getPlayers()
-      .subscribe(players => {
-        console.log(players);
-        this.players = players;
-        this.changeDetector.detectChanges();
-      });
-    }
+    this.playerService.loadPlayers();
+  }
 
 public addPlayer(): void {
 
@@ -48,18 +39,8 @@ public addPlayer(): void {
         emailAddress: this.newPlayerEmail
     };
 
-    this.playerService.addPlayer(player)
-        .subscribe({
-            next: response => {
-                console.log('Player added', response);
-                this.newPlayerName = '';
-                this.newPlayerEmail = '';
-            },
-            error: error => {
-                console.error('Failed to add player', error);
-            }
-        });
-      
-        this.changeDetector.detectChanges();
-}
+    this.playerService.addPlayer(player);
+    this.newPlayerName = '';
+    this.newPlayerEmail = '';
+  }
 }

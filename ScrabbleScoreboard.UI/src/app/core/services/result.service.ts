@@ -11,11 +11,11 @@ export class ResultService {
 
   private readonly http = inject(HttpClient);
 
-    private readonly endpoint = 'https://localhost:7210/api/results';
+  private readonly endpoint = 'https://localhost:7210/api/results';
 
   results = signal<Result[]>([]);
 
-loadResults(): void {
+  loadResults(): void {
     this.http.get<Result[]>(this.endpoint)
         .subscribe(results => {
             this.results.set(results);
