@@ -13,7 +13,7 @@
 
   <tbody>
 
-    @for (player of leaderboardEntries; track player.position) {
+    @for (player of leaderboardEntries(); track player.position) {
 
       <tr>
         <td>{{ player.position }}</td>

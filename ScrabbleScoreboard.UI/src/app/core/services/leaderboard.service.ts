@@ -1,4 +1,4 @@
-﻿import { inject, Injectable } from '@angular/core';
+﻿import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from "rxjs";
 import { LeaderboardEntry } from '../models/leaderboard-entry';
 import { HttpClient } from "@angular/common/http";
@@ -10,10 +10,18 @@ export class LeaderboardService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly endpoint =
-    'https://localhost:7310/api/leaderboard';
+  private readonly endpoint = 'https://localhost:7310/api/leaderboard';
 
-  getLeaderboard(): Observable<LeaderboardEntry[]> {
-    return this.http.get<LeaderboardEntry[]>(this.endpoint)
-  }
+  leaderboardEntries = signal<LeaderboardEntry[]>([]);
+
+    loadLeaderboardEntries(): void {
+    this.http.get<LeaderboardEntry[]>(this.endpoint)
+        .subscribe(entries => {
+            this.leaderboardEntries.set(entries);
+        });
+      }
+
+  // getLeaderboard(): Observable<LeaderboardEntry[]> {
+  //   return this.http.get<LeaderboardEntry[]>(this.endpoint)
+  // }
 }

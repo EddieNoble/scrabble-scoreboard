@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ResultService } from '../../app/core/services/result.service';
 import { ResultDto } from '../../app/core/models/result-dto';
-import { Player } from '../../app/core/models/player';
 import { PlayerService } from '../../app/core/services/player.service';
 import { Result } from '../../app/core/models/result';
 
