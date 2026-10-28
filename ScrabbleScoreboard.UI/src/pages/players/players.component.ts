@@ -2,7 +2,6 @@
 import {RouterLink} from '@angular/router';
 import { Player } from '../../app/core/models/player';
 import { PlayerService } from '../../app/core/services/player.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CreatePlayerRequest } from '../../app/core/models/create-player-request';
 

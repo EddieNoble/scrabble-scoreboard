@@ -1,5 +1,6 @@
 ﻿import { Component, inject } from '@angular/core';
-import { LeaderboardTableComponent }  from '../../components/leaderboard-table/leaderboard-table.component';
+import { LeaderboardTableComponent } from '../../components/leaderboard-table/leaderboard-table.component';
+import { LeaderboardActiveComponent } from '../../components/leaderboard-active/leaderboard-active.component';
 import {RouterLink} from '@angular/router';
 import { MessagingService } from '../../app/core/services/messaging.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -7,7 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
-  imports: [LeaderboardTableComponent, RouterLink],
+  imports: [LeaderboardActiveComponent, RouterLink],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.scss'
 })

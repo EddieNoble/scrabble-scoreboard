@@ -1,16 +1,16 @@
 ﻿import { Component } from '@angular/core';
 import {InfoCardComponent} from '../../components/info-card/info-card.component';
-import {LeaderboardTableComponent} from '../../components/leaderboard-table/leaderboard-table.component';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
+import { LeaderboardActiveComponent } from '../../components/leaderboard-active/leaderboard-active.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     InfoCardComponent,
-    LeaderboardTableComponent,
-    NavbarComponent
-  ],
+    NavbarComponent,
+    LeaderboardActiveComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
