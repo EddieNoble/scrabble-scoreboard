@@ -3,7 +3,7 @@
     <label class="form-label" for="result-player">Player</label>
     <select class="form-select player-select" id="result-player" [(ngModel)]="selectedPlayerId">
       <option value="" disabled>Choose Player</option>
-      @for (player of players; track player.id) {
+      @for (player of players(); track player.id) {
         <option [value]="player.id">
           {{ player.name }}
         </option>

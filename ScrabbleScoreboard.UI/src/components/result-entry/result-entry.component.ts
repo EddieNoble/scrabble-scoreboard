@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PlayerService } from '../../app/core/services/player.service';
 import { ResultService } from '../../app/core/services/result.service';
 import { Result } from '../../app/core/models/result';
-import { Player } from '../../app/core/models/player';
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-result-entry',
@@ -13,30 +11,21 @@ import { ChangeDetectorRef } from '@angular/core';
   imports: [FormsModule]
 })
 export class ResultEntryComponent {
+  private readonly resultService = inject(ResultService);
+  private readonly playerService = inject(PlayerService);
 
-  players: Player[] =[];
+  players = this.playerService.players;
 
   selectedPlayerId = '';
   score = 0;
 
-  constructor(
-    private playerService: PlayerService,
-    private resultService: ResultService,
-    private changeDetector: ChangeDetectorRef
-  ) {  }
-
-
     ngOnInit(): void {
-    this.playerService.getPlayers().subscribe(players => {
-      console.log('Players retrieved:', players);
-      this.players = players;
-      this.changeDetector.detectChanges();
-    });
-  }
+      this.playerService.loadPlayers();
+    }
 
   save(): void {
 
-    const player = this.players.find(p => p.id === this.selectedPlayerId);
+    const player = this.players().find(p => p.id === this.selectedPlayerId);
 
     if (!player) {
       return;
