@@ -1,59 +1,61 @@
-<section class="players-page">
-  <h3 class="players-heading">The Players</h3>
-  <p class="players-count">Total Players: {{ players().length }}</p>
+<main class="players-page">
+  <a class="page-home-link" routerLink="/" aria-label="Return to home page">
+    <span aria-hidden="true">←</span>
+    <span>Home</span>
+  </a>
 
-  <div class="table-scroll">
-    <table class="players-table">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (player of players(); track player.id) {
+  <section class="players-panel">
+    <div class="players-panel-heading">
+      <h2 class="players-heading">Players</h2>
+      <p class="players-count">Total Players: {{ players().length }}</p>
+    </div>
+
+    <div class="table-scroll">
+      <table class="players-table">
+        <thead>
           <tr>
-            <td>{{ player.name }}</td>
-            <td>{{ player.emailAddress }}</td>
-            <td><a href="players">Edit</a></td>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
           </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<hr />
-
-<section class="player-entry">
-  <h3 class="players-heading">Add Player</h3>
-  <div class="player-entry-form">
-    <div class="form-field">
-      <label class="form-label" for="player-name">Name</label>
-      <input
-        class="form-control"
-        id="player-name"
-        type="text"
-        [(ngModel)]="newPlayerName">
+        </thead>
+        <tbody>
+          @for (player of players(); track player.id) {
+            <tr>
+              <td>{{ player.name }}</td>
+              <td>{{ player.emailAddress }}</td>
+              <td><a href="players">Edit</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
+  </section>
 
-    <div class="form-field">
-      <label class="form-label" for="player-email">Email Address</label>
-      <input
-        class="form-control"
-        id="player-email"
-        type="email"
-        [(ngModel)]="newPlayerEmail">
+  <section class="player-entry">
+    <h2 class="players-heading">Add Player</h2>
+    <div class="player-entry-form">
+      <div class="form-field">
+        <label class="form-label" for="player-name">Name</label>
+        <input
+          class="form-control"
+          id="player-name"
+          type="text"
+          [(ngModel)]="newPlayerName">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="player-email">Email Address</label>
+        <input
+          class="form-control"
+          id="player-email"
+          type="email"
+          [(ngModel)]="newPlayerEmail">
+      </div>
+
+      <button class="btn btn-primary" type="button" (click)="addPlayer()">
+        Add Player
+      </button>
     </div>
-
-    <button class="btn btn-primary" type="button" (click)="addPlayer()">
-      Add Player
-    </button>
-  </div>
-</section>
-
-<hr />
-<a routerLink="/">
-  ← Home
-</a>
+  </section>
+</main>

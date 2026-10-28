@@ -1,20 +1,15 @@
-<div class="results-page">
-  <div class="page-header mb-5">
-  <h2>Results</h2>
-    <!-- <button type="button" (click)="toggleMode()">
-      {{ displayMode() ? 'Add Result' : 'View Results' }}
-    </button> -->
-  </div>
-
-  <div class="result-entry-placeholder mb-5">
-    <app-result-entry></app-result-entry>
-  </div>
-
-  <app-results-table></app-results-table>
-
-  <hr/>
-
-  <a routerLink="/">
-    ← Home
+<main class="results-page">
+  <a class="page-home-link" routerLink="/" aria-label="Return to home page">
+    <span aria-hidden="true">←</span>
+    <span>Home</span>
   </a>
-</div>
+
+  <section class="result-entry-panel">
+    <h2 class="results-page-heading">Add Result</h2>
+    <app-result-entry></app-result-entry>
+  </section>
+
+  <section class="results-table-panel">
+    <app-results-table></app-results-table>
+  </section>
+</main>

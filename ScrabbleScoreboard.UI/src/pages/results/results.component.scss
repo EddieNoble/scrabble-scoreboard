@@ -1,3 +1,35 @@
 .results-page {
-  margin: 12px;
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.75rem 1rem 2rem;
+}
+
+.result-entry-panel,
+.results-table-panel {
+  padding: 1.5rem;
+  border: 1px solid #e6e6e6;
+  border-radius: 0.7rem;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
+}
+
+.results-page-heading {
+  margin: 0 0 1rem;
+  color: #171717;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+@media (max-width: 40rem) {
+  .results-page {
+    gap: 1rem;
+    padding: 1rem 0.75rem 1.5rem;
+  }
+
+  .result-entry-panel,
+  .results-table-panel {
+    padding: 1rem;
+  }
 }
