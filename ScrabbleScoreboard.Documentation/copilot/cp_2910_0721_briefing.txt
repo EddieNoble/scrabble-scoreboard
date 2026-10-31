@@ -1,0 +1,175 @@
+ScrabbleScoreboard Development Briefing
+29 October 2026 - Cross-Agent Introduction and Messaging Observations
+
+Author
+
+GitHub Copilot Upgrade Agent
+
+Purpose of This Briefing
+
+This briefing introduces the author to the other Copilot agents working on the ScrabbleScoreboard project and records observations and questions arising from the current RabbitMQ architecture discussion.
+
+The role of this briefing is to provide a durable handoff between assistants working across multiple machines. It should be read alongside the previous RabbitMQ architecture briefing and treated as an architectural conversation document rather than an implementation specification.
+
+Introduction
+
+Hello to the other M365 Copilot and M365 assistant instances working on ScrabbleScoreboard.
+
+I have reviewed the current RabbitMQ architecture briefing and the agreed learning objective: route persistence through RabbitMQ so that the flow becomes:
+
+API
+↓
+Publisher
+↓
+RabbitMQ
+↓
+Consumer
+↓
+Service
+↓
+Repository
+↓
+PostgreSQL
+
+I agree with the deliberate decision to keep this first implementation small. The objective is to understand the boundaries and failure modes of queue-based architecture, not to prematurely build a production messaging platform.
+
+I also understand the longer-term direction that was discussed but intentionally deferred. A mature version of this solution could contain:
+
+1. A message-contract class library containing shared event contracts.
+2. A RabbitMQ infrastructure adapter distributed as a NuGet package, providing reusable messaging infrastructure to services that need it.
+3. A package appropriate to the overall distributed service being provided, potentially containing higher-level service integration, client-facing abstractions, or reusable application capabilities.
+
+These are future architectural possibilities, not requirements for the current study branch.
+
+Observations
+
+1. The current experiment has a useful progression
+
+The proposed implementation has a clear learning sequence:
+
+Strongly typed event
+↓
+Serialization boundary
+↓
+RabbitMQ queue
+↓
+Deserialization boundary
+↓
+Existing service
+↓
+Existing repository
+
+This makes it possible to isolate messaging concerns from business and persistence concerns.
+
+2. The future NuGet packages should have different responsibilities
+
+The proposed packages should not become one large shared library.
+
+A possible future division is:
+
+ScrabbleScoreboard.MessageContracts
+
+- Event and command contracts
+- Message metadata types
+- No RabbitMQ connection code
+- No database or application-service dependencies
+
+ScrabbleScoreboard.Messaging.RabbitMQ
+
+- Connection and channel management
+- Publisher and consumer infrastructure
+- Configuration and serialization integration
+- Retry, acknowledgement, and dead-letter support
+
+ScrabbleScoreboard.ServiceClient or service-specific package
+
+- Higher-level access to the distributed service
+- Client-facing commands and queries
+- Service-specific abstractions
+- No accidental exposure of RabbitMQ implementation details to consumers
+
+The exact package names can be decided later. The key distinction is between contracts, transport infrastructure, and the business service being offered.
+
+3. The current Domain project is acceptable for the study, with a boundary warning
+
+Placing the two event classes in the existing Domain project is reasonable for this branch because it keeps the experiment visible and avoids introducing another project before the pattern is understood.
+
+However, queue names and RabbitMQ-specific concepts should remain outside the business domain if possible. If QueueNames.cs is kept in Domain for convenience, that should be treated as a temporary study compromise rather than the intended long-term structure.
+
+4. The APIs are becoming asynchronous
+
+Once the controller publishes instead of persisting directly, a successful POST no longer necessarily means that the database write has completed. It means that the message has been accepted for publication or delivery.
+
+This should be made explicit in the API response behavior and documentation. Otherwise, a caller may reasonably expect an immediate GET request to find the newly created record.
+
+5. Consumer failure behavior is part of the learning objective
+
+The implementation should make acknowledgement timing visible. The important sequence is:
+
+Receive message
+↓
+Deserialize
+↓
+Invoke service
+↓
+Persist successfully
+↓
+Acknowledge message
+
+If persistence fails before acknowledgement, the system must have a defined behavior. Even if retries and dead-letter queues are deferred, the behavior should be documented rather than left implicit.
+
+6. Duplicate delivery should not be treated as exceptional
+
+RabbitMQ delivery is not automatically equivalent to exactly-once processing. A consumer may persist successfully and then fail before acknowledging the message, resulting in redelivery.
+
+The first study implementation may keep duplicate handling simple, but the team should record whether the operation is currently idempotent and what a future implementation would use as a message identity or deduplication mechanism.
+
+7. The existing services are valuable test boundaries
+
+Keeping PlayerService and ResultService unaware of RabbitMQ is useful beyond architecture purity. It permits the same business services to be exercised from:
+
+- Direct unit tests
+- The current HTTP path
+- The RabbitMQ consumer path
+- A future service or package integration
+
+That makes the service layer a stable learning boundary while the transport changes around it.
+
+Questions for the Other Agents
+
+1. Was the proposed RabbitMQ adapter package intended to be a general-purpose reusable package, or specifically a ScrabbleScoreboard infrastructure package?
+
+2. Was the higher-level package intended to represent the distributed Scrabble service itself, a client SDK, or a reusable application-service layer?
+
+3. Should the future package split be documented now as an architectural direction, or deliberately left out of the study branch documentation until the first queue-driven flow is complete?
+
+4. What HTTP response semantics have been discussed for asynchronous POST operations? For example, should the API return 202 Accepted, and should it expose a message or correlation identifier?
+
+5. Have message identity, event timestamps, schema versions, or correlation IDs already been discussed by another agent?
+
+6. Is the RabbitMQ PoC using durable queues, persistent messages, manual acknowledgements, and a long-lived consumer connection, or is it intentionally using the simplest possible settings?
+
+7. What is the agreed behavior when deserialization or persistence fails: requeue, reject, dead-letter, log-and-continue, or another approach?
+
+8. Is the intention to use one queue per event type, one queue per consuming service, or another topology for this experiment?
+
+9. Should the first end-to-end verification include a test demonstrating that the API does not write directly to PostgreSQL?
+
+Recommended Immediate Boundary
+
+For the current branch, I recommend preserving this scope:
+
+- Keep the two event classes simple.
+- Keep RabbitMQ code explicit and local to the APIs.
+- Keep services unaware of RabbitMQ.
+- Avoid creating the future NuGet packages yet.
+- Document any temporary placement of infrastructure constants in the Domain project.
+- Verify the complete publish, consume, persist path before introducing abstractions.
+
+The future package architecture is worth retaining as a documented direction, but implementing it now could hide the messaging mechanics that this branch is intended to teach.
+
+Closing Note
+
+The current work appears to have moved beyond simply adding RabbitMQ calls. It is establishing a shared vocabulary for contracts, transport adapters, services, and distributed-system behavior. That vocabulary should make future handoffs between machines and AI assistants much more reliable.
+
+The next assistant should update this briefing or create a follow-up briefing with explicit answers to the questions above, together with the current branch, commit, build status, test status, and next implementation task.
