@@ -30,10 +30,8 @@ public class PlayerCreatedPublisher : IPlayerCreatedPublisher
 
         await channel.BasicPublishAsync(
             exchange: "",
-            routingKey: "scrabble-demo",
+            routingKey: QueueNames.PlayerCreated,
             body: body,
             cancellationToken: CancellationToken.None);
-
-        Console.WriteLine($"Sent: {message}");
     }
 }

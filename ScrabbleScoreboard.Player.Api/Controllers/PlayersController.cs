@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ScrabbleScoreboard.Domain.Events;
+using ScrabbleScoreboard.Player.Api.Infrastructure.Consumers;
+using ScrabbleScoreboard.Player.Api.Infrastructure.Publishers;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
 
 namespace ScrabbleScoreboard.Player.Api.Controllers
@@ -76,8 +79,56 @@ namespace ScrabbleScoreboard.Player.Api.Controllers
             return Ok(await _playerService.AddPlayerAsync(player));
             
         }
-        
-        
+
+        /// <summary>
+        /// Test consume of publisher
+        /// </summary>
+        /// <returns>Completed task.</returns>
+        [HttpGet("consume")]
+        public async Task<IActionResult> Consume()
+        {
+            var consumer = new PlayerCreatedConsumer();
+            await consumer.ConsumeAsync();
+            return Ok();
+        }
+
+        [HttpGet("consume-all")]
+        public async Task<IActionResult> ConsumeAll()
+        {
+            var players = new List<PlayerCreatedEvent>();
+            var consumer = new PlayerCreatedConsumer();
+            while (true)
+            {
+                var player =
+                    await consumer.GetNextMessageAsync();
+
+                if (player == null)
+                {
+                    break;
+                }
+
+                players.Add(player);
+            }
+
+            return Ok(players);
+        }
+
+
+        /// <summary>
+        /// Returns length of the queue.
+        /// </summary>
+        /// <returns>An int</returns>
+        [HttpGet("queue-length")]
+        public async Task<IActionResult> QueueLength()
+        {
+            var consumer = new PlayerCreatedConsumer();
+
+            var count = await consumer.CurrentQueueLengthAsync();
+
+            return Ok(count);
+        }
+
+
     }
 }
     

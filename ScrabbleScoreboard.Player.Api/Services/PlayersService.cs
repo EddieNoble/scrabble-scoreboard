@@ -1,4 +1,5 @@
-﻿using ScrabbleScoreboard.Player.Api.Persistence.Repositories.Interfaces;
+﻿using ScrabbleScoreboard.Player.Api.Infrastructure.Publishers;
+using ScrabbleScoreboard.Player.Api.Persistence.Repositories.Interfaces;
 using ScrabbleScoreboard.Player.Api.Services.Interfaces;
 
 namespace ScrabbleScoreboard.Player.Api.Services
@@ -26,7 +27,17 @@ namespace ScrabbleScoreboard.Player.Api.Services
 
         public async Task<Domain.Player> AddPlayerAsync(Domain.Player player)
         {
-            return await _playerRepo.AddAsync(player);
+            var savedPlayer =  await _playerRepo.AddAsync(player);
+            var publisher = new PlayerCreatedPublisher();
+
+            await publisher.PublishAsync(new Domain.Events.PlayerCreatedEvent
+            {
+                EventId = savedPlayer.Id,
+                Name = savedPlayer.Name,
+                EmailAddress = savedPlayer.EmailAddress
+            });
+
+            return savedPlayer;
         }
     }
 }
