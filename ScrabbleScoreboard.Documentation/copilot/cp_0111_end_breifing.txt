@@ -1,0 +1,288 @@
+
+Absolutely. Here's a Starliner-style Mission Log covering the RabbitMQ work from the last couple of days.
+
+Mission Log
+ScrabbleScoreboard
+31 October 2026
+RabbitMQ Queue Persistence Proof of Concept
+Mission Objective
+
+Develop a practical understanding of queue-driven architecture by introducing RabbitMQ into the existing ScrabbleScoreboard solution.
+
+The objective was not to optimise the application or introduce complex distributed-system patterns, but to gain hands-on experience with publishers, consumers, queues, acknowledgements and event flow before applying similar patterns to larger projects such as Event Harvest.
+
+Progress Made
+Event Contracts Established
+
+Two initial events were defined:
+
+PlayerCreatedEvent
+ResultSubmittedEvent
+
+
+These were placed within the Domain layer as shared contracts.
+
+The events are represented as strongly-typed C# classes rather than manually constructed JSON payloads.
+
+This established a clear separation between:
+
+Domain Event
+↓
+Serialization
+↓
+RabbitMQ
+↓
+Deserialization
+↓
+Domain Event
+
+
+and removed the need to construct JSON by hand within publisher implementations.
+
+RabbitMQ Publisher Implemented
+
+A publisher was successfully created using patterns from the existing RabbitMQ proof of concept.
+
+The publishing flow now consists of:
+
+Controller
+↓
+Publisher
+↓
+RabbitMQ Queue
+
+
+Testing through Swagger demonstrated that messages could be successfully placed onto RabbitMQ queues.
+
+The RabbitMQ Management UI was used to verify queue contents and message counts.
+
+This provided a clear visual confirmation that publishing was operating correctly.
+
+RabbitMQ Consumer Implemented
+
+A consumer was created using the standard RabbitMQ:
+
+AsyncEventingBasicConsumer
+
+
+pattern.
+
+The consumer successfully:
+
+Receives Message
+↓
+Deserializes Event
+↓
+Outputs Event Information
+
+
+Testing confirmed that a message could complete the journey:
+
+Publisher
+↓
+RabbitMQ
+↓
+Consumer
+
+
+within the same service.
+
+The event payload survived the complete serialization and deserialization cycle.
+
+RabbitMQ Behaviour Investigated
+
+A number of important RabbitMQ concepts were explored and demonstrated:
+
+Push-Based Consumption
+
+RabbitMQ consumers subscribe to queues and receive pushed messages.
+
+Messages are not retrieved as a batch by default.
+
+Instead RabbitMQ invokes the consumer callback for each message received.
+
+Queue
+↓
+RabbitMQ Push
+↓
+ReceivedAsync Callback
+
+Manual Queue Inspection
+
+Alternative consumption patterns were investigated using:
+
+BasicGetAsync()
+
+
+This approach allows the application to explicitly request the next available message.
+
+This provides a useful mechanism for demonstrations and administrative tooling where manual processing behaviour is preferred over continuous background consumption.
+
+Queue Length Inspection
+
+Support was added for inspecting queue length.
+
+This allows demonstrations such as:
+
+Create Players
+↓
+Queue Length Increases
+↓
+Consume Messages
+↓
+Queue Length Returns To Zero
+
+
+providing clear visibility into queue behaviour.
+
+Acknowledgements
+
+RabbitMQ acknowledgement behaviour was reviewed.
+
+The distinction between:
+
+Message Delivered
+
+
+and
+
+Message Successfully Processed
+
+
+was identified as an important concept.
+
+Use of:
+
+BasicAckAsync()
+
+
+was investigated as part of a future demonstration showing:
+
+Receive
+↓
+Do Not Ack
+↓
+Message Remains
+
+
+versus:
+
+Receive
+↓
+Ack
+↓
+Message Removed
+
+Architectural Decisions
+Preserve RabbitMQ Boundaries
+
+An important architectural principle emerged during implementation.
+
+RabbitMQ behaviour should remain visible and explicit.
+
+The consumer should expose raw RabbitMQ behaviour wherever possible.
+
+Application-level behaviour should occur outside RabbitMQ infrastructure code.
+
+Preferred:
+
+Rabbit Consumer
+↓
+Raw Message
+↓
+Application Logic
+
+
+Avoid:
+
+Rabbit Consumer
+↓
+Hidden Filtering
+↓
+Hidden Batching
+↓
+Hidden Processing
+↓
+Application
+
+
+This keeps responsibilities obvious and prevents accidental abstraction leakage.
+
+Future Messaging Package
+
+A future reusable messaging package was identified but intentionally postponed.
+
+Potential package responsibilities:
+
+PublishAsync<T>()
+ConsumeAsync<T>()
+GetNextMessageAsync<T>()
+CurrentQueueLengthAsync()
+
+
+However, the decision was made to avoid premature abstraction until RabbitMQ patterns have been exercised in real-world scenarios such as Event Harvest.
+
+Key Learning Outcomes
+
+The most significant learning was not RabbitMQ itself.
+
+The important lesson was recognising the separation between:
+
+Messaging Infrastructure
+
+
+and
+
+Application Behaviour
+
+
+Understanding where responsibilities belong has proven more valuable than the implementation details themselves.
+
+The project also reinforced the principle:
+
+Understand First
+↓
+Generate Code Second
+
+
+allowing AI-generated implementations to be used confidently without sacrificing understanding.
+
+Current Status
+✅ Publisher Working
+✅ Consumer Working
+✅ Queue Inspection Working
+✅ Serialization Proven
+✅ Deserialization Proven
+✅ Swagger Integration Proven
+✅ RabbitMQ Management UI Validation Complete
+⬜ Persistence Through Consumer
+⬜ End-to-End Player Storage Flow
+
+Next Action
+
+Complete the final stage of the experiment:
+
+Player Creation
+↓
+Publish Event
+↓
+RabbitMQ
+↓
+Consumer
+↓
+Player Service
+↓
+Repository
+↓
+PostgreSQL
+
+
+Following completion, lessons learned will be applied to the Event Harvest migration work, where queue-driven processing will form part of the application's core architecture.
+
+Reflection
+
+The RabbitMQ work successfully achieved its primary goal of making queue-based architecture concrete rather than theoretical.
+
+The original focus was on learning a technology. As implementation progressed, the more valuable outcome became understanding architectural boundaries, message ownership, acknowledgements and processing responsibilities.
+
+With Angular, APIs, PostgreSQL, Docker, microservices and RabbitMQ now all represented within the solution, ScrabbleScoreboard is approaching completion of its original learning objectives and is beginning to transition from exploration into application. 🚀
